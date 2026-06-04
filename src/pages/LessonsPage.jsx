@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Sidebar from '../components/Sidebar.jsx';
 import LessonView from '../components/LessonView.jsx';
+import Footer from "../components/Footer";
 
 export default function LessonsPage({
                                         language,
@@ -52,6 +53,7 @@ export default function LessonsPage({
                         onMarkComplete={onMarkComplete}
                     />
                 )}
+                <Footer></Footer>
             </div>
         </>
     );

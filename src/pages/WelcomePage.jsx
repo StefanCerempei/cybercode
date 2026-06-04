@@ -4,6 +4,7 @@ import MatrixRain from '../components/MatrixRain.jsx';
 import GlitchTitle from '../components/GlitchTitle.jsx';
 import LanguageCard from '../components/LanguageCard.jsx';
 import { LANGUAGE_CARDS } from '../data/languageCards.js';
+import Footer from '../components/Footer.jsx';
 
 export default function WelcomePage({ onSelectLanguage }) {
     const [titleVisible, setTitleVisible] = useState(false);
@@ -70,11 +71,11 @@ export default function WelcomePage({ onSelectLanguage }) {
                 <meta property="og:title" content="CyberCode – Platformă avansată de cybersecurity și programare" />
                 <meta property="og:description" content="Învață C și Python prin module interactive de securitate cibernetică. Simulări de kernel, analiză malware, scripting ofensiv." />
                 <meta property="og:type" content="website" />
-                <meta property="og:url" content="https://cybercode.ro/" />
+                <meta property="og:url" content="https://cybercode.space/" />
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="CyberCode – Platformă avansată de cybersecurity și programare" />
                 <meta name="twitter:description" content="Învață C și Python prin module interactive de securitate cibernetică." />
-                <link rel="canonical" href="https://cybercode.ro/" />
+                <link rel="canonical" href="https://cybercode.space/" />
             </Helmet>
 
             <div style={{
@@ -462,6 +463,8 @@ export default function WelcomePage({ onSelectLanguage }) {
         </>
     );
 }
+
+<Footer />
 
 // Reusable custom styles
 const statCardStyle = {
