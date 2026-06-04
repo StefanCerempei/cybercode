@@ -432,7 +432,19 @@ export default function WelcomePage({ onSelectLanguage }) {
                 </section>
 
                 {/* Footer component */}
-                <Footer />
+                <div style={{
+                    position: 'relative',
+                    minHeight: '100vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    background: 'var(--bg-primary)',
+                    overflowX: 'hidden',
+                }}>
+                    {/* ... tot conținutul ... */}
+                    <Footer />
+                </div>
             </div>
         </>
     );
