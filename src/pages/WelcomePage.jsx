@@ -80,14 +80,13 @@ export default function WelcomePage({ onSelectLanguage }) {
 
             <div style={{
                 position: 'relative',
-                height: '100vh',
-                overflowY: 'auto',
+                minHeight: '100vh',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'flex-start',
                 background: 'var(--bg-primary)',
-                paddingBottom: '32px'
+                overflowX: 'hidden',
             }}>
                 <MatrixRain />
 
@@ -373,35 +372,7 @@ export default function WelcomePage({ onSelectLanguage }) {
                     </div>
                 </div>
 
-                {/* Footer */}
-                <footer style={{
-                    position: 'relative',
-                    zIndex: 2,
-                    marginTop: 'auto',
-                    marginBottom: '24px',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: 11,
-                    color: 'var(--text-muted)',
-                    letterSpacing: '0.15em',
-                    display: 'flex',
-                    gap: 32,
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    justifyContent: 'center',
-                    borderTop: '1px solid rgba(0,245,255,0.15)',
-                    paddingTop: '20px',
-                    width: '100%'
-                }}>
-                    <span>SYS:ONLINE</span>
-                    <span style={{ color: 'var(--accent-cyan)', animation: 'blink 1.5s infinite' }}>■</span>
-                    <span>MODULES: C // PYTHON</span>
-                    <span style={{ color: 'var(--accent-cyan)', animation: 'blink 1.5s infinite' }}>■</span>
-                    <span>STATUS: READY</span>
-                    <span style={{ color: 'var(--accent-cyan)', animation: 'blink 1.5s infinite' }}>■</span>
-                    <span>UPTIME: 14D 8H 23M</span>
-                </footer>
-
-                {/* ===== EXTRA SCROLL SECTION ===== */}
+                {/* EXTRA SCROLL SECTION */}
                 <section style={{
                     position: 'relative',
                     zIndex: 2,
@@ -459,12 +430,13 @@ export default function WelcomePage({ onSelectLanguage }) {
                         ▸ End of transmission // Scroll completed // More data available in training mode
                     </div>
                 </section>
+
+                {/* Footer component */}
+                <Footer />
             </div>
         </>
     );
 }
-
-<Footer />
 
 // Reusable custom styles
 const statCardStyle = {
