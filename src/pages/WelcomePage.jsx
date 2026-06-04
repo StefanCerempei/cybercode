@@ -62,8 +62,8 @@ export default function WelcomePage({ onSelectLanguage }) {
     return (
         <div style={{
             position: 'relative',
-            height: '100vh',           // FORȚEAZĂ ÎNĂLȚIMEA ECRANULUI
-            overflowY: 'auto',         // SCROLL ACTIVAT
+            height: '100vh',           // FORCES SCREEN HEIGHT
+            overflowY: 'auto',         // SCROLL ENABLED
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -152,7 +152,7 @@ export default function WelcomePage({ onSelectLanguage }) {
                 ))}
             </div>
 
-            {/* ===== TEXT INFORMATIV JOS SUB CARDS ===== */}
+            {/* ===== MISSION STATEMENT BELOW CARDS ===== */}
             <div style={{
                 position: 'relative',
                 zIndex: 2,
@@ -182,7 +182,7 @@ export default function WelcomePage({ onSelectLanguage }) {
                     color: 'var(--text-secondary)',
                     margin: '0 0 16px 0'
                 }}>
-                    <strong>De la zero la expert în securitate cibernetică și sisteme low-level.</strong> Platforma noastră oferă module interactive, simulări de rețele și provocări live pentru a stăpâni <strong style={{ color: 'var(--accent-cyan)' }}>C</strong> și <strong style={{ color: 'var(--accent-cyan)' }}>Python</strong>. Vei învăța cum funcționează memoria, exploatarea vulnerabilităților, automatizarea și ingineria inversă.
+                    <strong>From zero to expert in cybersecurity and low-level systems.</strong> Our platform offers interactive modules, network simulations, and live challenges to master <strong style={{ color: 'var(--accent-cyan)' }}>C</strong> and <strong style={{ color: 'var(--accent-cyan)' }}>Python</strong>. You will learn memory management, vulnerability exploitation, automation, and reverse engineering.
                 </p>
                 <div style={{
                     display: 'flex',
@@ -195,11 +195,11 @@ export default function WelcomePage({ onSelectLanguage }) {
                     paddingTop: '16px',
                     marginTop: '8px'
                 }}>
-                    <span>🔹 50+ challenge-uri CTF</span>
-                    <span>🔹 Simulări kernel</span>
-                    <span>🔹 Analiză malware</span>
-                    <span>🔹 Scripting ofensiv</span>
-                    <span>🔹 Comunitate elite</span>
+                    <span>🔹 50+ CTF Challenges</span>
+                    <span>🔹 Kernel Simulations</span>
+                    <span>🔹 Malware Analysis</span>
+                    <span>🔹 Offensive Scripting</span>
+                    <span>🔹 Elite Community</span>
                 </div>
                 <div style={{
                     marginTop: '16px',
@@ -207,7 +207,7 @@ export default function WelcomePage({ onSelectLanguage }) {
                     fontFamily: 'var(--font-mono)',
                     color: 'rgba(0,245,255,0.7)'
                 }}>
-                    [ SYSTEM_READY ] // Alege un limbaj și începe misiunea...
+                    [ SYSTEM_READY ] // Choose a language and begin your mission...
                 </div>
             </div>
 
@@ -264,16 +264,16 @@ export default function WelcomePage({ onSelectLanguage }) {
                         <span style={{ marginLeft: 'auto', fontSize: '11px', background: 'rgba(0,245,255,0.2)', padding: '2px 8px', borderRadius: '20px' }}>v3.12</span>
                     </div>
                     <div style={{ fontSize: '13px', lineHeight: '1.6', color: 'var(--text-secondary)', marginBottom: '16px' }}>
-                        <strong style={{ color: 'var(--accent-cyan)' }}>⚡ Ce face Python?</strong><br />
-                        • Inteligență Artificială & Machine Learning (TensorFlow, PyTorch)<br />
-                        • Analiză date & știință (Pandas, NumPy)<br />
-                        • Backend web (Django, FastAPI)<br />
-                        • Automatizări, scripting, crawling<br />
-                        • Educație & prototipare rapidă<br />
-                        • Cybersecurity (scriere tool-uri, exploit-uri)
+                        <strong style={{ color: 'var(--accent-cyan)' }}>⚡ What does Python do?</strong><br />
+                        • Artificial Intelligence & Machine Learning (TensorFlow, PyTorch)<br />
+                        • Data analysis & science (Pandas, NumPy)<br />
+                        • Web Backend (Django, FastAPI)<br />
+                        • Automation, scripting, crawling<br />
+                        • Education & rapid prototyping<br />
+                        • Cybersecurity (writing tools, exploits)
                     </div>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)', borderTop: '1px dashed rgba(0,245,255,0.3)', paddingTop: '12px', marginTop: '8px' }}>
-                        🔥 Popularitate: #1 (TIOBE 2025) • Peste 15 milioane developeri
+                        🔥 Popularity: #1 (TIOBE 2025) • Over 15 million developers
                     </div>
                 </div>
 
@@ -284,16 +284,16 @@ export default function WelcomePage({ onSelectLanguage }) {
                         <span style={{ marginLeft: 'auto', fontSize: '11px', background: 'rgba(0,245,255,0.2)', padding: '2px 8px', borderRadius: '20px' }}>C23 / C++26</span>
                     </div>
                     <div style={{ fontSize: '13px', lineHeight: '1.6', color: 'var(--text-secondary)', marginBottom: '16px' }}>
-                        <strong style={{ color: 'var(--accent-cyan)' }}>⚙️ Ce face C / C++?</strong><br />
-                        • Sisteme de operare (Windows, Linux kernel)<br />
-                        • Drivere, embedded, IoT, microcontrollere<br />
-                        • Jocuri & motoare grafice (Unreal Engine)<br />
-                        • Compilatoare, mașini virtuale<br />
-                        • Aplicații high-frequency trading<br />
-                        • Securitate cibernetică (exploit development, reverse engineering)
+                        <strong style={{ color: 'var(--accent-cyan)' }}>⚙️ What does C / C++ do?</strong><br />
+                        • Operating systems (Windows, Linux kernel)<br />
+                        • Drivers, embedded hardware, IoT, microcontrollers<br />
+                        • Games & graphics engines (Unreal Engine)<br />
+                        • Compilers, virtual machines<br />
+                        • High-frequency trading applications<br />
+                        • Cybersecurity (exploit development, reverse engineering)
                     </div>
                     <div style={{ fontSize: '11px', color: 'var(--text-muted)', borderTop: '1px dashed rgba(0,245,255,0.3)', paddingTop: '12px', marginTop: '8px' }}>
-                        💥 Performanță brută • Control total asupra memoriei • Fundația tuturor limbajelor
+                        💥 Raw performance • Total memory control • The foundation of all programming
                     </div>
                 </div>
             </div>
@@ -381,7 +381,7 @@ export default function WelcomePage({ onSelectLanguage }) {
                 <span>UPTIME: 14D 8H 23M</span>
             </div>
 
-            {/* ===== NOU: SECȚIUNE SUPLIMENTARĂ CU TEXT DUPĂ FOOTER (pentru scroll și extra info) ===== */}
+            {/* ===== EXTRA SCROLL SECTION ===== */}
             <div style={{
                 position: 'relative',
                 zIndex: 2,
@@ -411,20 +411,20 @@ export default function WelcomePage({ onSelectLanguage }) {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div>
-                        <strong style={{ color: 'var(--accent-cyan)' }}>🔹 ROADMAP 2025:</strong>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '13px', marginLeft: '8px' }}>Module de Rust, Reverse Engineering avansat, Kernel Driver Development, AI Security.</span>
+                        <strong style={{ color: 'var(--accent-cyan)' }}>🔹 ROADMAP:</strong>
+                        <span style={{ color: 'var(--text-secondary)', fontSize: '13px', marginLeft: '8px' }}>Rust integration modules, advanced Reverse Engineering, Kernel Driver Development, AI Security tracks.</span>
                     </div>
                     <div>
-                        <strong style={{ color: 'var(--accent-cyan)' }}>🔹 COMUNITATE:</strong>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '13px', marginLeft: '8px' }}>Peste 12.400 de membri activi pe Discord, 340+ challenge-uri rezolvate săptămânal.</span>
+                        <strong style={{ color: 'var(--accent-cyan)' }}>🔹 COMMUNITY:</strong>
+                        <span style={{ color: 'var(--text-secondary)', fontSize: '13px', marginLeft: '8px' }}>Over 12,400 active Discord members with 340+ cyber challenges resolved weekly.</span>
                     </div>
                     <div>
-                        <strong style={{ color: 'var(--accent-cyan)' }}>🔹 CERTIFICĂRI:</strong>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '13px', marginLeft: '8px' }}>După finalizarea fiecărui limbaj primești un certificat verificabil blockchain.</span>
+                        <strong style={{ color: 'var(--accent-cyan)' }}>🔹 CERTIFICATIONS:</strong>
+                        <span style={{ color: 'var(--text-secondary)', fontSize: '13px', marginLeft: '8px' }}>Earn a blockchain-verifiable completion certificate upon mastering each specialized track.</span>
                     </div>
                     <div>
                         <strong style={{ color: 'var(--accent-cyan)' }}>🔹 NEXT UPDATE:</strong>
-                        <span style={{ color: 'var(--text-secondary)', fontSize: '13px', marginLeft: '8px' }}>v3.0 – adăugare limbaj Go + module de exploatare Windows (estimat: Q3 2025).</span>
+                        <span style={{ color: 'var(--text-secondary)', fontSize: '13px', marginLeft: '8px' }}>v3.0 – incorporating Go programming language + advanced Windows exploitation matrix (ETA: Q3).</span>
                     </div>
                 </div>
                 <div style={{
@@ -444,7 +444,7 @@ export default function WelcomePage({ onSelectLanguage }) {
     );
 }
 
-// Stiluri reutilizabile
+// Reusable custom styles
 const statCardStyle = {
     background: 'rgba(0, 20, 30, 0.6)',
     backdropFilter: 'blur(4px)',
@@ -511,3 +511,4 @@ const techSpecsStyle = {
     padding: '16px 20px',
     fontFamily: 'var(--font-ui)'
 };
+
