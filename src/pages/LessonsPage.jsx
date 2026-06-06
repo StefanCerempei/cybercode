@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import Sidebar from '../components/Sidebar.jsx';
 import LessonView from '../components/LessonView.jsx';
-import Footer from '../components/Footer.jsx'; // asigură-te că e .jsx
+import Footer from '../components/Footer.jsx';
 
 export default function LessonsPage({
                                         language,
@@ -32,19 +32,13 @@ export default function LessonsPage({
                 <meta name="robots" content="index, follow" />
             </Helmet>
 
-            {/* Container principal pe coloană, întreaga înălțime */}
             <div style={{
                 display: 'flex',
                 flexDirection: 'column',
-                height: '100vh',
-                overflow: 'hidden'
+                minHeight: '100vh',
+                background: 'var(--bg-primary)',
             }}>
-                {/* Zona principală (Sidebar + LessonView) - ocupă tot spațiul disponibil */}
-                <div style={{
-                    display: 'flex',
-                    flex: 1,
-                    overflow: 'hidden'
-                }}>
+                <div style={{ display: 'flex', flex: 1 }}>
                     <Sidebar
                         language={language}
                         lessons={lessons}
@@ -52,21 +46,21 @@ export default function LessonsPage({
                         onSelectLesson={onSelectLesson}
                         onBack={onBack}
                     />
-                    {currentLesson && (
-                        <LessonView
-                            key={currentLesson.id}
-                            lesson={currentLesson}
-                            language={language}
-                            onNext={onNext}
-                            onPrev={onPrev}
-                            hasNext={currentIdx < lessons.length - 1}
-                            hasPrev={currentIdx > 0}
-                            onMarkComplete={onMarkComplete}
-                        />
-                    )}
+                    <div style={{ flex: 1, overflowY: 'auto', padding: '0 20px' }}>
+                        {currentLesson && (
+                            <LessonView
+                                key={currentLesson.id}
+                                lesson={currentLesson}
+                                language={language}
+                                onNext={onNext}
+                                onPrev={onPrev}
+                                hasNext={currentIdx < lessons.length - 1}
+                                hasPrev={currentIdx > 0}
+                                onMarkComplete={onMarkComplete}
+                            />
+                        )}
+                    </div>
                 </div>
-
-                {/* Footer - fixat jos, nu mai face parte din zona de scroll */}
                 <Footer />
             </div>
         </>
