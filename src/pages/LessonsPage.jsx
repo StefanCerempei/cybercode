@@ -68,15 +68,16 @@ export default function LessonsPage({
 
                 {/* ===== FULL-WIDTH FOOTER (LAST ELEMENT) ===== */}
                 <div style={{
-                    width: '100%',               // stretches left to right
-                    background: 'rgba(0, 5, 10, 0.9)',
+                    width: '100%',
+                    background: 'rgba(0, 5, 10, 0.95)',
                     backdropFilter: 'blur(8px)',
                     borderTop: '1px solid rgba(0, 245, 255, 0.4)',
                     fontFamily: 'var(--font-ui)',
                     textAlign: 'center',
                     padding: '28px 24px 24px',
-                    marginTop: '0',
-                    boxShadow: '0 -4px 20px rgba(0,0,0,0.5)'
+                    marginTop: 'auto',           // pushes footer to bottom
+                    boxShadow: '0 -4px 20px rgba(0,0,0,0.5)',
+                    zIndex: 10,
                 }}>
                     <div style={{
                         maxWidth: '1200px',
