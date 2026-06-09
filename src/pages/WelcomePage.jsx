@@ -454,10 +454,30 @@ export default function WelcomePage() {
                         <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>Next‑gen cybersecurity training</div>
                     </div>
                     <div style={{ display: 'flex', gap: '28px', flexWrap: 'wrap', justifyContent: 'center' }}>
-                        <a href="#" style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s' }} onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'} onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}>About</a>
-                        <a href="#" style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s' }} onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'} onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}>Docs</a>
-                        <a href="#" style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s' }} onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'} onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}>Community</a>
-                        <a href="#" style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s' }} onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'} onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}>Support</a>
+                        <button
+                            onClick={() => navigate('/about')}
+                            style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                            onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'}
+                            onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}
+                        >About</button>
+                        <button
+                            onClick={() => navigate('/docs')}
+                            style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                            onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'}
+                            onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}
+                        >Docs</button>
+                        <button
+                            onClick={() => navigate('/community')}
+                            style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                            onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'}
+                            onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}
+                        >Community</button>
+                        <button
+                            onClick={() => navigate('/support')}
+                            style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
+                            onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'}
+                            onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}
+                        >Support</button>
                     </div>
                     <button onClick={scrollToTop} style={{
                         background: 'rgba(0,245,255,0.1)',
