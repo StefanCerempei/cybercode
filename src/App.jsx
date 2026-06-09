@@ -1,39 +1,20 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';  // Doar Routes și Route, fără BrowserRouter
 import './styles/global.css';
-import { useLessons } from './hooks/useLessons.js';
 import WelcomePage from './pages/WelcomePage.jsx';
 import LessonsPage from './pages/LessonsPage.jsx';
+import LearnC from './pages/LearnC.jsx';
+import LearnPY from './pages/LearnPY.jsx';
 
 export default function App() {
-  const {
-    screen,
-    language,
-    lessons,
-    currentLesson,
-    currentIdx,
-    handleSelectLanguage,
-    handleSelectLesson,
-    handleBack,
-    handleNext,
-    handlePrev,
-    handleMarkComplete,
-  } = useLessons();
-
-  if (screen === 'welcome') {
-    return <WelcomePage onSelectLanguage={handleSelectLanguage} />;
-  }
-
-  return (
-    <LessonsPage
-      language={language}
-      lessons={lessons}
-      currentLesson={currentLesson}
-      currentIdx={currentIdx}
-      onSelectLesson={handleSelectLesson}
-      onBack={handleBack}
-      onNext={handleNext}
-      onPrev={handlePrev}
-      onMarkComplete={handleMarkComplete}
-    />
-  );
+    return (
+        <Routes>
+            <Route path="/" element={<WelcomePage />} />
+            <Route path="/lessons" element={<LessonsPage />} />
+            <Route path="/learn-c" element={<LearnC />} />
+            <Route path="/learn-c/:lessonId" element={<LearnC />} />
+            <Route path="/learn-py" element={<LearnPY />} />
+            <Route path="/learn-py/:lessonId" element={<LearnPY />} />
+        </Routes>
+    );
 }

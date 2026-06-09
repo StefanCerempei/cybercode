@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MatrixRain from '../components/MatrixRain.jsx';
 import GlitchTitle from '../components/GlitchTitle.jsx';
 import LanguageCard from '../components/LanguageCard.jsx';
 import { LANGUAGE_CARDS } from '../data/languageCards.js';
 
-export default function WelcomePage({ onSelectLanguage }) {
+export default function WelcomePage() {
+    const navigate = useNavigate();
     const [titleVisible, setTitleVisible] = useState(false);
     const [currentTime, setCurrentTime] = useState(new Date());
     const [activeLearners, setActiveLearners] = useState(2347);
@@ -50,6 +52,11 @@ export default function WelcomePage({ onSelectLanguage }) {
         };
     }, []);
 
+    const handleSelectLanguage = (lang) => {
+        console.log('Selected language:', lang);
+        navigate(lang.path);
+    };
+
     const formattedTime = currentTime.toLocaleTimeString('en-US', {
         hour: '2-digit',
         minute: '2-digit',
@@ -73,7 +80,7 @@ export default function WelcomePage({ onSelectLanguage }) {
             alignItems: 'center',
             justifyContent: 'flex-start',
             background: 'var(--bg-primary)',
-            paddingBottom: '0'  // Remove extra bottom padding, footer handles spacing
+            paddingBottom: '0'
         }}>
             <MatrixRain />
 
@@ -150,7 +157,7 @@ export default function WelcomePage({ onSelectLanguage }) {
                     <LanguageCard
                         key={lang.id}
                         lang={lang}
-                        onSelect={onSelectLanguage}
+                        onSelect={handleSelectLanguage}
                         delay={300 + i * 150}
                     />
                 ))}
@@ -357,7 +364,7 @@ export default function WelcomePage({ onSelectLanguage }) {
                 </div>
             </div>
 
-            {/* System Archive Section (moved before footer) */}
+            {/* System Archive Section */}
             <div style={{
                 position: 'relative',
                 zIndex: 2,
@@ -416,16 +423,16 @@ export default function WelcomePage({ onSelectLanguage }) {
                 </div>
             </div>
 
-            {/* ===== FULL-WIDTH FOOTER (LAST ELEMENT) ===== */}
+            {/* Footer */}
             <div style={{
                 position: 'relative',
                 zIndex: 2,
-                width: '100%',               // Full width left to right
+                width: '100%',
                 background: 'rgba(0, 5, 10, 0.9)',
                 backdropFilter: 'blur(8px)',
                 borderTop: '1px solid rgba(0, 245, 255, 0.4)',
                 borderBottom: 'none',
-                borderRadius: '0',            // No rounded corners on sides
+                borderRadius: '0',
                 fontFamily: 'var(--font-ui)',
                 textAlign: 'center',
                 padding: '28px 24px 24px',
@@ -487,7 +494,7 @@ export default function WelcomePage({ onSelectLanguage }) {
     );
 }
 
-// Reusable styles (unchanged)
+// Stiluri
 const statCardStyle = {
     background: 'rgba(0, 20, 30, 0.6)',
     backdropFilter: 'blur(4px)',
