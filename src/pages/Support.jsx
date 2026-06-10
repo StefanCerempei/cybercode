@@ -1,16 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
+import emailjs from '@emailjs/browser';
 
 export default function Support() {
     const navigate = useNavigate();
+    const form = useRef();
+    const [isSending, setIsSending] = useState(false);
     const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Support request:', formData);
-        alert('Support request sent! We will contact you soon.');
-        setFormData({ name: '', email: '', message: '' });
+        setIsSending(true);
+
+        // Înlocuiește cu cheile tale de la EmailJS
+        emailjs.sendForm(
+            'YOUR_SERVICE_ID',      // Service ID din EmailJS
+            'YOUR_TEMPLATE_ID',     // Template ID din EmailJS
+            form.current,
+            'YOUR_PUBLIC_KEY'       // Public Key din EmailJS
+        ).then((result) => {
+            console.log('Email sent:', result.text);
+            alert('✅ Message sent successfully! We will contact you soon.');
+            setFormData({ name: '', email: '', message: '' });
+            setIsSending(false);
+        }).catch((error) => {
+            console.error('Error:', error);
+            alert('❌ Failed to send message. Please try again later.');
+            setIsSending(false);
+        });
     };
 
     const scrollToTop = () => {
@@ -71,11 +89,12 @@ export default function Support() {
 
                     <div style={{ background: 'rgba(0, 20, 30, 0.6)', border: '1px solid rgba(0, 245, 255, 0.2)', borderRadius: '16px', padding: '32px' }}>
                         <h2 style={{ color: 'var(--accent-cyan)', marginBottom: '16px' }}>Contact Us</h2>
-                        <form onSubmit={handleSubmit}>
+                        <form ref={form} onSubmit={handleSubmit}>
                             <div style={{ marginBottom: '16px' }}>
                                 <label style={{ color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>Name</label>
                                 <input
                                     type="text"
+                                    name="user_name"
                                     value={formData.name}
                                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                                     required
@@ -93,6 +112,7 @@ export default function Support() {
                                 <label style={{ color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>Email</label>
                                 <input
                                     type="email"
+                                    name="user_email"
                                     value={formData.email}
                                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                                     required
@@ -109,6 +129,7 @@ export default function Support() {
                             <div style={{ marginBottom: '24px' }}>
                                 <label style={{ color: 'var(--text-secondary)', display: 'block', marginBottom: '8px' }}>Message</label>
                                 <textarea
+                                    name="message"
                                     value={formData.message}
                                     onChange={(e) => setFormData({...formData, message: e.target.value})}
                                     required
@@ -123,16 +144,22 @@ export default function Support() {
                                     }}
                                 />
                             </div>
-                            <button type="submit" style={{
-                                background: 'linear-gradient(90deg, var(--accent-cyan), #00aacc)',
-                                border: 'none',
-                                color: '#000',
-                                padding: '12px 32px',
-                                borderRadius: '30px',
-                                fontSize: '14px',
-                                fontWeight: 'bold',
-                                cursor: 'pointer',
-                            }}>SEND MESSAGE →</button>
+                            <button
+                                type="submit"
+                                disabled={isSending}
+                                style={{
+                                    background: isSending ? '#555' : 'linear-gradient(90deg, var(--accent-cyan), #00aacc)',
+                                    border: 'none',
+                                    color: '#000',
+                                    padding: '12px 32px',
+                                    borderRadius: '30px',
+                                    fontSize: '14px',
+                                    fontWeight: 'bold',
+                                    cursor: isSending ? 'not-allowed' : 'pointer',
+                                    opacity: isSending ? 0.7 : 1,
+                                }}>
+                                {isSending ? 'SENDING...' : 'SEND MESSAGE →'}
+                            </button>
                         </form>
                     </div>
                 </div>
