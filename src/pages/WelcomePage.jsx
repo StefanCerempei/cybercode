@@ -142,6 +142,47 @@ export default function WelcomePage() {
                 }} />
             </div>
 
+            {/* Blog Button - Poziționat între header și carduri */}
+            <div style={{
+                position: 'relative',
+                zIndex: 2,
+                display: 'flex',
+                justifyContent: 'center',
+                marginBottom: '40px',
+            }}>
+                <button
+                    onClick={() => navigate('/blog')}
+                    style={{
+                        background: 'linear-gradient(135deg, #ff6b00, var(--accent-cyan))',
+                        border: 'none',
+                        color: '#000',
+                        padding: '12px 32px',
+                        borderRadius: '40px',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        cursor: 'pointer',
+                        fontFamily: 'var(--font-mono)',
+                        transition: '0.3s',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        boxShadow: '0 0 20px rgba(0,245,255,0.4)',
+                    }}
+                    onMouseEnter={e => {
+                        e.target.style.transform = 'scale(1.05)';
+                        e.target.style.boxShadow = '0 0 30px rgba(0,245,255,0.8)';
+                    }}
+                    onMouseLeave={e => {
+                        e.target.style.transform = 'scale(1)';
+                        e.target.style.boxShadow = '0 0 20px rgba(0,245,255,0.4)';
+                    }}
+                >
+                    <span style={{ fontSize: '20px' }}>📝</span>
+                    <span>CHECK OUT OUR TECH BLOG</span>
+                    <span style={{ fontSize: '20px' }}>→</span>
+                </button>
+            </div>
+
             {/* Language Cards */}
             <div style={{
                 position: 'relative',
@@ -454,30 +495,11 @@ export default function WelcomePage() {
                         <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '4px' }}>Next‑gen cybersecurity training</div>
                     </div>
                     <div style={{ display: 'flex', gap: '28px', flexWrap: 'wrap', justifyContent: 'center' }}>
-                        <button
-                            onClick={() => navigate('/about')}
-                            style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-                            onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'}
-                            onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}
-                        >About</button>
-                        <button
-                            onClick={() => navigate('/docs')}
-                            style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-                            onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'}
-                            onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}
-                        >Docs</button>
-                        <button
-                            onClick={() => navigate('/community')}
-                            style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-                            onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'}
-                            onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}
-                        >Community</button>
-                        <button
-                            onClick={() => navigate('/support')}
-                            style={{ color: 'var(--text-secondary)', fontSize: '12px', textDecoration: 'none', transition: '0.2s', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit' }}
-                            onMouseEnter={e => e.target.style.color = 'var(--accent-cyan)'}
-                            onMouseLeave={e => e.target.style.color = 'var(--text-secondary)'}
-                        >Support</button>
+                        <button onClick={() => navigate('/about')} style={{ color: 'var(--text-secondary)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>About</button>
+                        <button onClick={() => navigate('/docs')} style={{ color: 'var(--text-secondary)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>Docs</button>
+                        <button onClick={() => navigate('/community')} style={{ color: 'var(--text-secondary)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>Community</button>
+                        <button onClick={() => navigate('/support')} style={{ color: 'var(--text-secondary)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>Support</button>
+                        <button onClick={() => navigate('/blog')} style={{ color: 'var(--accent-cyan)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>📝 Blog</button>
                     </div>
                     <button onClick={scrollToTop} style={{
                         background: 'rgba(0,245,255,0.1)',
@@ -487,11 +509,7 @@ export default function WelcomePage() {
                         borderRadius: '30px',
                         fontSize: '11px',
                         cursor: 'pointer',
-                        fontFamily: 'var(--font-mono)',
-                        transition: '0.2s'
-                    }} onMouseEnter={e => { e.target.style.background = 'rgba(0,245,255,0.3)'; e.target.style.boxShadow = '0 0 8px cyan'; }} onMouseLeave={e => { e.target.style.background = 'rgba(0,245,255,0.1)'; e.target.style.boxShadow = 'none'; }}>
-                        ▲ BACK TO TOP
-                    </button>
+                    }}>▲ BACK TO TOP</button>
                 </div>
                 <div style={{
                     fontSize: '10px',
@@ -499,9 +517,6 @@ export default function WelcomePage() {
                     borderTop: '1px solid rgba(0,245,255,0.2)',
                     paddingTop: '16px',
                     marginTop: '20px',
-                    maxWidth: '1200px',
-                    marginLeft: 'auto',
-                    marginRight: 'auto'
                 }}>
                     <span>SYS:ONLINE</span> <span style={{ color: 'var(--accent-cyan)', margin: '0 8px' }}>■</span>
                     <span>MODULES: C // PYTHON</span> <span style={{ color: 'var(--accent-cyan)', margin: '0 8px' }}>■</span>
