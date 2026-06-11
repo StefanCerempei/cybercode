@@ -22,7 +22,7 @@ export default function Blog() {
             id: 1,
             title: 'ASUS ROG Strix G18 18" Gaming Laptop',
             category: 'laptops',
-            description: 'Intel Ultra 9 Processor 275HX, 2.5K 240Hz/3ms, GeForce RTX 5060 8GB DDR7, 32 GB DDR5 RAM 1 TB SSD, Wi-Fi 7, Fast Charging, Windows 11 Pro, Office Lifetime License',
+            description: 'Intel Ultra 9 Processor 275HX, 2.5K 240Hz / 3ms, GeForce RTX 5060 8GB DDR7, 32 GB DDR5 RAM 1 TB SSD, Wi-Fi 7, Fast Charging, Windows 11 Pro, Office Lifetime License',
             price: '$1.905,81',
             rating: 4.8,
             affiliateLink: 'https://amzn.to/3BqX7Yz',
