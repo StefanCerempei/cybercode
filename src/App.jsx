@@ -10,6 +10,7 @@ import Docs from './pages/Docs.jsx';
 import Community from './pages/Community.jsx';
 import Support from './pages/Support.jsx';
 import Blog from './pages/Blog.jsx';
+import BlogPost from './pages/BlogPost.jsx';
 
 export default function App() {
     return (
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="/community" element={<Community />} />
             <Route path="/support" element={<Support />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
         </Routes>
     );
 }

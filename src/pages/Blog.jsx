@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,183 +6,175 @@ export default function Blog() {
     const navigate = useNavigate();
     const [activeCategory, setActiveCategory] = useState('all');
 
+    useEffect(() => {
+        document.body.style.overflow = 'auto';
+        document.documentElement.style.overflow = 'auto';
+        return () => {
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+        };
+    }, []);
+
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const categories = [
         { id: 'all', name: 'All' },
-        { id: 'laptops', name: '💻 Laptops' },
-        { id: 'coolers', name: '❄️ Coolers' },
-        { id: 'accessories', name: '🎮 Accessories' },
+        { id: 'python', name: '🐍 Python' },
+        { id: 'c-cpp', name: '⚡ C/C++' },
+        { id: 'history', name: '📜 History' },
+        { id: 'wow', name: '🚀 Futuristic' },
     ];
 
-    const products = [
+    const articles = [
         {
-            id: 1,
-            title: 'ASUS ROG Strix G18 18" Gaming Laptop',
-            category: 'laptops',
-            description: 'Intel Ultra 9 Processor 275HX, 2.5K 240Hz / 3ms, GeForce RTX 5060 8GB DDR7, 32 GB DDR5 RAM 1 TB SSD, Wi-Fi 7, Fast Charging, Windows 11 Pro, Office Lifetime License',
-            price: '$1.905,81',
-            rating: 4.8,
-            affiliateLink: 'https://amzn.to/3BqX7Yz',
-            image: 'https://m.media-amazon.com/images/I/71XrE8JqNgL._AC_SL1254_.jpg',
-            features: ['18" QHD+ 240Hz Display', 'RTX 4080 Graphics', 'Liquid Metal Cooling']
+            id: 'python-birth',
+            title: 'The Birth of Python: How a Christmas Project Changed Programming Forever',
+            category: 'history',
+            excerpt: 'In December 1989, Guido van Rossum started a hobby project during his Christmas break. He had no idea that this "side project" would become one of the most popular programming languages...',
+            readTime: 8,
+            date: 'December 25, 1989',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg',
+            author: 'Guido van Rossum',
+            color: '#3776AB'
         },
         {
-            id: 2,
-            title: 'MSI Raider GE78 HX',
-            category: 'laptops',
-            description: 'Intel Core i9-13980HX, NVIDIA RTX 4090, 64GB DDR5, 2TB SSD, 17" QHD+ 240Hz',
-            price: '$3,299',
-            rating: 4.9,
-            affiliateLink: 'https://amzn.to/4cpXyZ8',
-            image: 'https://m.media-amazon.com/images/I/81NxZ7q7VRL._AC_SL1500_.jpg',
-            features: ['Per-Key RGB Keyboard', 'RTX 4090 16GB', 'DDR5 5600MHz']
+            id: 'c-language-god',
+            title: 'C: The God Language That Still Rules the World (50 Years Later)',
+            category: 'c-cpp',
+            excerpt: 'Created in 1972 by Dennis Ritchie, C is like Latin for programming - almost everything modern is built on its foundations. Linux, Windows, Python, even your toaster might have C inside...',
+            readTime: 7,
+            date: '1972',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png',
+            author: 'Dennis Ritchie',
+            color: '#00599C'
         },
         {
-            id: 3,
-            title: 'Lenovo Legion Pro 7i',
-            category: 'laptops',
-            description: 'Intel Core i9-13900HX, NVIDIA RTX 4080, 32GB DDR5, 1TB SSD, 16" WQXGA 240Hz',
-            price: '$2,199',
-            rating: 4.7,
-            affiliateLink: 'https://amzn.to/4coYzL9',
-            image: 'https://m.media-amazon.com/images/I/71ZtYy7dRKL._AC_SL1500_.jpg',
-            features: ['AI Chip LA1', 'Coldfront Cooling', '16" 500nit Display']
+            id: 'ada-lovelace',
+            title: 'The First Programmer in History Was a Woman (And You\'ve Never Heard of Her)',
+            category: 'history',
+            excerpt: 'In 1843, Ada Lovelace wrote the world\'s first computer algorithm. She imagined computers doing more than just math - art, music, and AI - a century before anyone else...',
+            readTime: 6,
+            date: '1843',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/8/87/Ada_Lovelace.jpg',
+            author: 'Ada Lovelace',
+            color: '#9b4d96'
         },
         {
-            id: 4,
-            title: 'Alienware m18 R2',
-            category: 'laptops',
-            description: 'Intel Core i9-14900HX, NVIDIA RTX 4090, 64GB DDR5, 4TB SSD, 18" QHD+ 165Hz',
-            price: '$3,899',
-            rating: 4.9,
-            affiliateLink: 'https://amzn.to/4cBxZuM',
-            image: 'https://m.media-amazon.com/images/I/81TZZy7dRKL._AC_SL1500_.jpg',
-            features: ['Alienware Cryo-Tech', 'Cherry Mechanical Keys', '4 Year Warranty']
+            id: 'eniac-programmers',
+            title: 'The ENIAC Programmers: The Women Who Built the Digital Age',
+            category: 'history',
+            excerpt: 'Six women programmed the world\'s first general-purpose computer. They were the best mathematicians of their generation. And for 50 years, history forgot them...',
+            readTime: 7,
+            date: '1945',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Eniac.jpg',
+            author: 'ENIAC Programmers',
+            color: '#2c3e50'
         },
         {
-            id: 5,
-            title: 'Noctua NH-D15',
-            category: 'coolers',
-            description: 'Dual Tower CPU Cooler, 140mm Fans, Silent Operation, 6 Heat Pipes',
-            price: '$109',
-            rating: 4.9,
-            affiliateLink: 'https://amzn.to/4d2XcFg',
-            image: 'https://m.media-amazon.com/images/I/71ZxZtY7dRL._AC_SL1500_.jpg',
-            features: ['6 Heat Pipes', 'Dual 140mm Fans', 'Ultra Silent']
+            id: 'cpp-language',
+            title: 'C++: The Language That Runs the World (Whether You Know It or Not)',
+            category: 'c-cpp',
+            excerpt: 'Your web browser? C++. Your video games? C++. Photoshop? C++. Even parts of Python are written in C++. Meet the unsung hero of modern computing...',
+            readTime: 6,
+            date: '1983',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg',
+            author: 'Bjarne Stroustrup',
+            color: '#f34b7d'
         },
         {
-            id: 6,
-            title: 'Corsair iCUE H150i Elite',
-            category: 'coolers',
-            description: '360mm Liquid CPU Cooler, RGB Fans, LCD Display, Intel/AMD Support',
-            price: '$199',
-            rating: 4.8,
-            affiliateLink: 'https://amzn.to/4e2YdGh',
-            image: 'https://m.media-amazon.com/images/I/81NYZZy7dRL._AC_SL1500_.jpg',
-            features: ['LCD Screen', 'RGB Fans', '5 Year Warranty']
+            id: 'python-metaclasses',
+            title: 'Python\'s Hidden Magic: Metaclasses, Decorators, and Descriptors',
+            category: 'python',
+            excerpt: 'Python is simple, right? Wait until you discover metaclasses - code that writes code. Here\'s what happens under the hood when you type "class MyClass:"...',
+            readTime: 9,
+            date: '2024',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg',
+            author: 'Python Core Devs',
+            color: '#3776AB'
         },
         {
-            id: 7,
-            title: 'Arctic Liquid Freezer III 360',
-            category: 'coolers',
-            description: 'All-in-One Liquid CPU Cooler, VRM Fan, 360mm Radiator, PWM Control',
-            price: '$89',
-            rating: 4.7,
-            affiliateLink: 'https://amzn.to/3XzYwHj',
-            image: 'https://m.media-amazon.com/images/I/61ZzZtY7dRL._AC_SL1500_.jpg',
-            features: ['VRM Cooling Fan', 'PWM Controlled', 'Easy Installation']
+            id: 'quantum-programming',
+            title: 'Quantum Programming: How to Write Code for Computers That Don\'t Exist Yet',
+            category: 'wow',
+            excerpt: 'Google\'s quantum computer solved a problem in 200 seconds that would take a supercomputer 10,000 years. Here\'s how developers are preparing for the quantum revolution...',
+            readTime: 8,
+            date: '2024',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/f/f6/IBM_Quantum_Computer.jpg',
+            author: 'Quantum Dev Team',
+            color: '#6a1b9a'
         },
         {
-            id: 8,
-            title: 'Cooler Master Hyper 212',
-            category: 'coolers',
-            description: 'Direct Contact Heat Pipes, 120mm PWM Fan, Universal Bracket',
-            price: '$44',
-            rating: 4.6,
-            affiliateLink: 'https://amzn.to/4i2XcGh',
-            image: 'https://m.media-amazon.com/images/I/71NXYy7dRL._AC_SL1500_.jpg',
-            features: ['4 Heat Pipes', 'Universal Socket', 'Quiet Operation']
+            id: 'thompson-hack',
+            title: 'The Thompson Hack: The Most Genius (and Terrifying) Computer Virus Ever Created',
+            category: 'history',
+            excerpt: 'Ken Thompson, co-creator of Unix, built a virus that couldn\'t be detected - even by reading the source code. It took the world 5 years to realize what he\'d done...',
+            readTime: 7,
+            date: '1983',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Ken_Thompson_%28scientist%29.jpg',
+            author: 'Ken Thompson',
+            color: '#d35400'
         },
         {
-            id: 9,
-            title: 'Razer BlackWidow V4 Pro',
-            category: 'accessories',
-            description: 'Mechanical Gaming Keyboard, Yellow Switches, Command Dial, Wrist Rest',
-            price: '$229',
-            rating: 4.7,
-            affiliateLink: 'https://amzn.to/4e3YcFh',
-            image: 'https://m.media-amazon.com/images/I/71YZZy7dRL._AC_SL1500_.jpg',
-            features: ['Yellow Switches', 'Command Dial', 'Magnetic Wrist Rest']
+            id: 'rust-vs-cpp',
+            title: 'Rust vs C++: The Battle for Systems Programming Supremacy',
+            category: 'c-cpp',
+            excerpt: 'For decades, C++ has been king of systems programming. But Mozilla created Rust, and now Microsoft, Google, and even Linux are rewriting critical components. Is C++ finally losing its throne?...',
+            readTime: 8,
+            date: '2024',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Rust_programming_language_black_logo.svg',
+            author: 'Systems Team',
+            color: '#f74c00'
         },
         {
-            id: 10,
-            title: 'Logitech G502 X Plus',
-            category: 'accessories',
-            description: 'LIGHTFORCE Wireless Gaming Mouse, RGB, 25K DPI, 8 Buttons',
-            price: '$159',
-            rating: 4.8,
-            affiliateLink: 'https://amzn.to/4cAxYuG',
-            image: 'https://m.media-amazon.com/images/I/61ZXYy7dRL._AC_SL1500_.jpg',
-            features: ['LIGHTFORCE Switches', 'Lightsync RGB', '13 Programmable Controls']
+            id: 'python-async',
+            title: 'Async/Await in Python: The Complete Deep Dive',
+            category: 'python',
+            excerpt: 'Python 3.5 introduced async/await, changing how we write concurrent code. But how does it actually work under the hood? The event loop, coroutines, and the future of Python concurrency...',
+            readTime: 10,
+            date: '2024',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg',
+            author: 'Python Async Team',
+            color: '#3776AB'
         },
         {
-            id: 11,
-            title: 'SteelSeries Apex Pro',
-            category: 'accessories',
-            description: 'OmniPoint Adjustable Switches, RGB Lighting, OLED Smart Display',
-            price: '$199',
-            rating: 4.8,
-            affiliateLink: 'https://amzn.to/3XwYzJk',
-            image: 'https://m.media-amazon.com/images/I/71ZZYy7dRL._AC_SL1500_.jpg',
-            features: ['OmniPoint Switches', 'OLED Display', 'Magnetic Wrist Rest']
+            id: 'ai-history',
+            title: 'The Untold History of AI: From Turing to Transformers',
+            category: 'wow',
+            excerpt: 'AI isn\'t new. In 1950, Turing imagined machines that could think. In 1966, ELIZA fooled people into thinking it was human. Here\'s the 70-year journey that led to ChatGPT...',
+            readTime: 9,
+            date: '2024',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Turing_Test_version_3.png',
+            author: 'AI History Project',
+            color: '#00a67e'
         },
         {
-            id: 12,
-            title: 'LG UltraGear 27" OLED',
-            category: 'accessories',
-            description: '240Hz 0.03ms Gaming Monitor, 1440p, G-Sync Compatible',
-            price: '$899',
-            rating: 4.9,
-            affiliateLink: 'https://amzn.to/4e4ZdGh',
-            image: 'https://m.media-amazon.com/images/I/81XYy7dRL._AC_SL1500_.jpg',
-            features: ['OLED Display', '240Hz Refresh Rate', '0.03ms Response Time']
+            id: 'memory-management',
+            title: 'Memory Management in C: Pointers, Allocation, and the Stack vs Heap',
+            category: 'c-cpp',
+            excerpt: 'C gives you ultimate power over memory - and the ultimate responsibility. One wrong pointer can crash everything. Here\'s everything you need to know about malloc, free, and the memory model...',
+            readTime: 11,
+            date: '2024',
+            image: 'https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png',
+            author: 'Memory Experts',
+            color: '#00599C'
         }
     ];
 
-    const filteredProducts = activeCategory === 'all'
-        ? products
-        : products.filter(p => p.category === activeCategory);
-
-    const renderStars = (rating) => {
-        const fullStars = Math.floor(rating);
-        const stars = [];
-        for (let i = 0; i < fullStars; i++) {
-            stars.push('★');
-        }
-        for (let i = fullStars; i < 5; i++) {
-            stars.push('☆');
-        }
-        return stars.join('');
-    };
+    const filteredArticles = activeCategory === 'all'
+        ? articles
+        : articles.filter(a => a.category === activeCategory);
 
     return (
         <>
             <Helmet>
-                <title>Blog & Reviews – CyberCode</title>
-                <meta name="description" content="Gaming laptop reviews, cooling solutions, and tech recommendations. Best products for programmers and gamers." />
+                <title>CyberCode Blog - Programming History, Python, C++ & Tech Stories</title>
+                <meta name="description" content="Fascinating articles about programming history, Python deep dives, C/C++ internals, and mind-blowing tech stories." />
             </Helmet>
 
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100vh',
-                background: 'var(--bg-primary)',
-                overflowY: 'auto',
-            }}>
-                <div style={{ flex: 1, padding: '60px 20px', maxWidth: '1200px', margin: '0 auto', width: '100%' }}>
+            <div style={{ background: 'var(--bg-primary)' }}>
+                <div style={{ padding: '60px 20px', maxWidth: '1200px', margin: '0 auto' }}>
                     <button onClick={() => navigate('/')} style={{
                         background: 'rgba(0,245,255,0.1)',
                         border: '1px solid var(--accent-cyan)',
@@ -192,14 +184,15 @@ export default function Blog() {
                         fontSize: '12px',
                         cursor: 'pointer',
                         marginBottom: '32px',
+                        fontFamily: 'var(--font-mono)',
                     }}>← BACK TO HOME</button>
 
                     <div style={{ textAlign: 'center', marginBottom: '48px' }}>
                         <h1 style={{ fontSize: '48px', fontWeight: 'bold', color: 'var(--accent-cyan)', fontFamily: 'var(--font-mono)', marginBottom: '16px' }}>
-                            TECH BLOG
+                            CYBERCODE BLOG
                         </h1>
                         <p style={{ color: 'var(--text-secondary)', fontSize: '16px', maxWidth: '700px', margin: '0 auto' }}>
-                            Curated reviews of the best gaming laptops, cooling solutions, and accessories for developers and gamers
+                            Deep dives into programming history, language internals, and the future of code
                         </p>
                         <div style={{ height: '2px', background: 'linear-gradient(90deg, transparent, var(--accent-cyan), transparent)', width: '300px', margin: '24px auto' }} />
                     </div>
@@ -233,138 +226,153 @@ export default function Blog() {
                         ))}
                     </div>
 
-                    {/* Products Grid */}
+                    {/* Articles Grid */}
                     <div style={{
                         display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))',
                         gap: '28px',
                         marginBottom: '48px',
                     }}>
-                        {filteredProducts.map(product => (
-                            <div key={product.id} style={{
-                                background: 'rgba(0, 20, 30, 0.6)',
-                                border: '1px solid rgba(0, 245, 255, 0.2)',
-                                borderRadius: '16px',
-                                overflow: 'hidden',
-                                transition: '0.3s',
-                            }}
-                                 onMouseEnter={e => {
-                                     e.currentTarget.style.borderColor = 'var(--accent-cyan)';
-                                     e.currentTarget.style.transform = 'translateY(-5px)';
-                                 }}
-                                 onMouseLeave={e => {
-                                     e.currentTarget.style.borderColor = 'rgba(0, 245, 255, 0.2)';
-                                     e.currentTarget.style.transform = 'translateY(0)';
-                                 }}>
+                        {filteredArticles.map(article => (
+                            <div
+                                key={article.id}
+                                style={{
+                                    background: 'rgba(0, 20, 30, 0.6)',
+                                    border: '1px solid rgba(0, 245, 255, 0.2)',
+                                    borderRadius: '16px',
+                                    overflow: 'hidden',
+                                    transition: '0.3s',
+                                    cursor: 'pointer',
+                                }}
+                                onClick={() => navigate(`/blog/${article.id}`)}
+                                onMouseEnter={e => {
+                                    e.currentTarget.style.borderColor = 'var(--accent-cyan)';
+                                    e.currentTarget.style.transform = 'translateY(-5px)';
+                                }}
+                                onMouseLeave={e => {
+                                    e.currentTarget.style.borderColor = 'rgba(0, 245, 255, 0.2)';
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                }}>
                                 <div style={{
                                     height: '200px',
-                                    background: '#0a0a0a',
+                                    background: `linear-gradient(135deg, ${article.color}20, ${article.color}05)`,
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                     overflow: 'hidden',
+                                    position: 'relative',
                                 }}>
                                     <img
-                                        src={product.image}
-                                        alt={product.title}
+                                        src={article.image}
+                                        alt={article.title}
                                         style={{
-                                            width: '100%',
-                                            height: '100%',
+                                            height: '100px',
                                             objectFit: 'contain',
+                                            opacity: 0.85,
                                         }}
                                         onError={(e) => {
-                                            e.target.src = 'https://placehold.co/400x200/0a2a3a/00ffcc?text=Product+Image';
+                                            e.target.style.display = 'none';
                                         }}
                                     />
+                                    <div style={{
+                                        position: 'absolute',
+                                        top: '12px',
+                                        right: '12px',
+                                        background: 'rgba(0,0,0,0.7)',
+                                        padding: '4px 10px',
+                                        borderRadius: '20px',
+                                        fontSize: '11px',
+                                        color: 'var(--accent-cyan)',
+                                    }}>
+                                        📖 {article.readTime} min read
+                                    </div>
                                 </div>
-                                <div style={{ padding: '20px' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                                        <h3 style={{ color: 'var(--accent-cyan)', fontSize: '18px', fontWeight: 'bold' }}>{product.title}</h3>
-                                        <span style={{ color: 'var(--accent-cyan)', fontSize: '20px', fontWeight: 'bold' }}>{product.price}</span>
+                                <div style={{ padding: '24px' }}>
+                                    <h3 style={{ color: 'var(--accent-cyan)', fontSize: '20px', fontWeight: 'bold', lineHeight: '1.3', marginBottom: '12px' }}>{article.title}</h3>
+                                    <div style={{ display: 'flex', gap: '12px', marginBottom: '12px', fontSize: '12px', color: 'var(--text-muted)' }}>
+                                        <span>📅 {article.date}</span>
+                                        <span>✍️ {article.author}</span>
                                     </div>
-                                    <p style={{ color: 'var(--text-secondary)', fontSize: '13px', marginBottom: '12px', lineHeight: '1.5' }}>
-                                        {product.description}
+                                    <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '20px', lineHeight: '1.6' }}>
+                                        {article.excerpt}
                                     </p>
-                                    <div style={{ marginBottom: '12px' }}>
-                                        <span style={{ color: '#ffcc00', fontSize: '14px', marginRight: '8px' }}>{renderStars(product.rating)}</span>
-                                        <span style={{ color: 'var(--text-muted)', fontSize: '12px' }}>({product.rating})</span>
+                                    <div style={{
+                                        color: 'var(--accent-cyan)',
+                                        fontSize: '13px',
+                                        textAlign: 'center',
+                                        paddingTop: '12px',
+                                        borderTop: '1px solid rgba(0,245,255,0.2)',
+                                    }}>
+                                        READ FULL ARTICLE →
                                     </div>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
-                                        {product.features.map((feature, idx) => (
-                                            <span key={idx} style={{
-                                                background: 'rgba(0,245,255,0.1)',
-                                                padding: '4px 10px',
-                                                borderRadius: '20px',
-                                                fontSize: '10px',
-                                                color: 'var(--accent-cyan)',
-                                            }}>
-                                                {feature}
-                                            </span>
-                                        ))}
-                                    </div>
-                                    <a
-                                        href={product.affiliateLink}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        style={{
-                                            display: 'block',
-                                            textAlign: 'center',
-                                            background: 'linear-gradient(90deg, var(--accent-cyan), #00aacc)',
-                                            color: '#000',
-                                            padding: '12px',
-                                            borderRadius: '30px',
-                                            textDecoration: 'none',
-                                            fontWeight: 'bold',
-                                            fontSize: '14px',
-                                            transition: '0.2s',
-                                        }}
-                                        onMouseEnter={e => e.target.style.opacity = '0.9'}
-                                        onMouseLeave={e => e.target.style.opacity = '1'}
-                                    >
-                                        CHECK ON AMAZON →
-                                    </a>
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    {/* Affiliate Disclaimer */}
+                    {/* Newsletter */}
                     <div style={{
-                        background: 'rgba(0, 20, 30, 0.4)',
-                        border: '1px solid rgba(0, 245, 255, 0.15)',
-                        borderRadius: '12px',
-                        padding: '20px',
+                        background: 'linear-gradient(135deg, rgba(0,245,255,0.1), rgba(0,170,204,0.05))',
+                        border: '1px solid rgba(0, 245, 255, 0.3)',
+                        borderRadius: '20px',
+                        padding: '50px 40px',
                         textAlign: 'center',
+                        marginBottom: '40px',
+                    }}>
+                        <h3 style={{ color: 'var(--accent-cyan)', fontSize: '28px', marginBottom: '12px' }}>Never Miss a Story</h3>
+                        <p style={{ color: 'var(--text-secondary)', fontSize: '16px', marginBottom: '24px' }}>Get weekly programming insights delivered to your inbox</p>
+                        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                            <input
+                                type="email"
+                                placeholder="your@email.com"
+                                style={{
+                                    background: 'rgba(0,0,0,0.4)',
+                                    border: '1px solid var(--accent-cyan)',
+                                    padding: '14px 24px',
+                                    borderRadius: '40px',
+                                    color: 'var(--text-primary)',
+                                    width: '300px',
+                                    fontSize: '14px',
+                                }}
+                            />
+                            <button style={{
+                                background: 'linear-gradient(90deg, var(--accent-cyan), #00aacc)',
+                                color: '#000',
+                                border: 'none',
+                                padding: '14px 32px',
+                                borderRadius: '40px',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                fontSize: '14px',
+                            }}>Subscribe →</button>
+                        </div>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '12px', marginTop: '20px' }}>No spam. Unsubscribe anytime.</p>
+                    </div>
+
+                    {/* Footer */}
+                    <div style={{
+                        background: 'rgba(0, 5, 10, 0.95)',
+                        backdropFilter: 'blur(8px)',
+                        borderTop: '1px solid rgba(0, 245, 255, 0.4)',
+                        borderRadius: '16px',
+                        textAlign: 'center',
+                        padding: '32px 24px 28px',
                         marginTop: '20px',
                     }}>
-                        <p style={{ color: 'var(--text-muted)', fontSize: '11px' }}>
-                            🔗 As an Amazon Associate, CyberCode earns from qualifying purchases. This helps us keep the platform free.
-                        </p>
-                    </div>
-                </div>
-
-                {/* Footer */}
-                <div style={{
-                    width: '100%',
-                    background: 'rgba(0, 5, 10, 0.95)',
-                    backdropFilter: 'blur(8px)',
-                    borderTop: '1px solid rgba(0, 245, 255, 0.4)',
-                    textAlign: 'center',
-                    padding: '28px 24px 24px',
-                }}>
-                    <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
-                        <div style={{ textAlign: 'left' }}>
-                            <div style={{ fontSize: '14px', fontWeight: 'bold', color: 'var(--accent-cyan)', marginBottom: '8px' }}>CYBERCODE</div>
-                            <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>© 2025 Cybercode Labs</div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '20px' }}>
+                            <div style={{ textAlign: 'left' }}>
+                                <div style={{ fontSize: '16px', fontWeight: 'bold', color: 'var(--accent-cyan)', marginBottom: '8px' }}>CYBERCODE</div>
+                                <div style={{ fontSize: '12px', color: 'var(--text-muted)' }}>© 2025 Cybercode Labs</div>
+                            </div>
+                            <div style={{ display: 'flex', gap: '28px', flexWrap: 'wrap', justifyContent: 'center' }}>
+                                <button onClick={() => navigate('/about')} style={{ color: 'var(--text-secondary)', fontSize: '13px', background: 'none', border: 'none', cursor: 'pointer' }}>About</button>
+                                <button onClick={() => navigate('/docs')} style={{ color: 'var(--text-secondary)', fontSize: '13px', background: 'none', border: 'none', cursor: 'pointer' }}>Docs</button>
+                                <button onClick={() => navigate('/community')} style={{ color: 'var(--text-secondary)', fontSize: '13px', background: 'none', border: 'none', cursor: 'pointer' }}>Community</button>
+                                <button onClick={() => navigate('/support')} style={{ color: 'var(--text-secondary)', fontSize: '13px', background: 'none', border: 'none', cursor: 'pointer' }}>Support</button>
+                                <button onClick={() => navigate('/blog')} style={{ color: 'var(--accent-cyan)', fontSize: '13px', background: 'none', border: 'none', cursor: 'pointer' }}>Blog</button>
+                            </div>
+                            <button onClick={scrollToTop} style={{ background: 'rgba(0,245,255,0.1)', border: '1px solid var(--accent-cyan)', color: 'var(--accent-cyan)', padding: '8px 18px', borderRadius: '30px', fontSize: '12px', cursor: 'pointer' }}>▲ BACK TO TOP</button>
                         </div>
-                        <div style={{ display: 'flex', gap: '28px', flexWrap: 'wrap', justifyContent: 'center' }}>
-                            <button onClick={() => navigate('/about')} style={{ color: 'var(--text-secondary)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>About</button>
-                            <button onClick={() => navigate('/docs')} style={{ color: 'var(--text-secondary)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>Docs</button>
-                            <button onClick={() => navigate('/community')} style={{ color: 'var(--text-secondary)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>Community</button>
-                            <button onClick={() => navigate('/support')} style={{ color: 'var(--text-secondary)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>Support</button>
-                            <button onClick={() => navigate('/blog')} style={{ color: 'var(--accent-cyan)', fontSize: '12px', background: 'none', border: 'none', cursor: 'pointer' }}>Blog</button>
-                        </div>
-                        <button onClick={scrollToTop} style={{ background: 'rgba(0,245,255,0.1)', border: '1px solid var(--accent-cyan)', color: 'var(--accent-cyan)', padding: '6px 14px', borderRadius: '30px', fontSize: '11px', cursor: 'pointer' }}>▲ BACK TO TOP</button>
                     </div>
                 </div>
             </div>
