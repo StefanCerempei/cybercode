@@ -18,14 +18,44 @@ const pythonLessons = [
             { type: 'text', content: 'Comments begin with a # character. Python ignores everything after # on that line.' },
             { type: 'code', content: '# This is a comment\nprint("Visible code")  # Inline comment' },
         ],
+        keyTakeaways: [
+            'Python is interpreted, not compiled',
+            'Indentation defines code blocks, not braces',
+            'Use print() to display output',
+            'Comments start with #',
+            'Python files use .py extension'
+        ],
         exercises: [
             {
                 id: 'ex-py01-1',
                 title: 'Personal Greeting',
+                difficulty: 'beginner',
+                points: 10,
                 instructions: 'Write a Python program that prints "Hello, [your name]!" using a variable.',
                 initialCode: '# Your code here\nname = "Your name"\n# print your greeting',
                 solution: 'name = "Alice"\nprint(f"Hello, {name}!")',
-                hints: ['Use an f-string or concatenation.']
+                hints: ['Use an f-string or concatenation'],
+                example: 'print(f"Hello, {name}!")'
+            },
+            {
+                id: 'ex-py01-2',
+                title: 'Multi-line Output',
+                difficulty: 'beginner',
+                points: 15,
+                instructions: 'Print three lines of output using a single print statement with newline characters.',
+                initialCode: '# Print three lines\nprint()',
+                solution: 'print("Line 1\\nLine 2\\nLine 3")',
+                hints: ['Use \\n for newlines'],
+            },
+            {
+                id: 'ex-py01-3',
+                title: 'Variable Printing',
+                difficulty: 'beginner',
+                points: 15,
+                instructions: 'Create variables for your name, age, and favorite color, then print them all in one sentence.',
+                initialCode: '# Create variables\n# Print them',
+                solution: 'name = "Alice"\nage = 25\ncolor = "blue"\nprint(f"My name is {name}, I am {age} years old, and my favorite color is {color}.")',
+                hints: ['Use f-strings for easy formatting', 'Separate variables with commas in print'],
             }
         ]
     },
@@ -36,24 +66,52 @@ const pythonLessons = [
         completed: false,
         content: [
             { type: 'heading', content: 'Variables' },
-            { type: 'text', content: 'A variable is a named container for a value. In Python, you do not declare a type — Python figures it out automatically.' },
             { type: 'code', content: 'name = "Alex"\nage = 25\nheight = 1.82\nis_hacker = True\n\nprint(name, age)' },
             { type: 'heading', content: 'Basic Data Types' },
             { type: 'list', items: ['int — whole numbers: 42, -7, 0', 'float — decimal numbers: 3.14, -0.5', 'str — text: "hello", \'world\'', 'bool — True or False', 'None — absence of a value'] },
             { type: 'heading', content: 'Type Checking' },
             { type: 'code', content: 'x = 42\nprint(type(x))   # <class \'int\'>\n\ny = "cyber"\nprint(type(y))   # <class \'str\'>' },
-            { type: 'heading', content: 'String Operations' },
-            { type: 'code', content: 'first = "Cyber"\nlast = "Code"\nfull = first + " " + last\nprint(full)         # Cyber Code\nprint(len(full))    # 10\nprint(full.upper()) # CYBER CODE' },
+            { type: 'heading', content: 'Type Conversion' },
+            { type: 'code', content: 'num_str = "123"\nnum_int = int(num_str)\npi_str = str(3.14159)\nfloat_val = float("99.99")' },
             { type: 'note', content: 'Python is dynamically typed — a variable can change type during execution. This is powerful but requires attention.' },
+        ],
+        keyTakeaways: [
+            'Python uses dynamic typing',
+            'Common types: int, float, str, bool, None',
+            'Use type() to check variable type',
+            'Use int(), float(), str() for conversion',
+            'Variables don\'t need explicit declaration'
         ],
         exercises: [
             {
                 id: 'ex-py02-1',
                 title: 'Type Explorer',
-                instructions: 'Create variables of different types (int, float, str, bool). Print each variable and its type using print() and type().',
-                initialCode: '# Declare variables\n\n# Print them with types',
+                difficulty: 'beginner',
+                points: 10,
+                instructions: 'Create variables of different types and print each with its type.',
+                initialCode: '# Create variables of each type\n# Print them with types',
                 solution: 'age = 25\nprice = 19.99\nname = "Python"\nis_fun = True\n\nprint(age, type(age))\nprint(price, type(price))\nprint(name, type(name))\nprint(is_fun, type(is_fun))',
-                hints: ['Use type(variable) inside print().']
+                hints: ['Use type(variable) inside print()'],
+            },
+            {
+                id: 'ex-py02-2',
+                title: 'Type Conversion Challenge',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Convert a string "3.14" to float, then to int, then back to string. Print each step.',
+                initialCode: '# Convert and print each step',
+                solution: 'num_str = "3.14"\nprint(f"String: {num_str}, type: {type(num_str)}")\nnum_float = float(num_str)\nprint(f"Float: {num_float}, type: {type(num_float)}")\nnum_int = int(num_float)\nprint(f"Int: {num_int}, type: {type(num_int)}")\nback_to_str = str(num_int)\nprint(f"Back to string: {back_to_str}, type: {type(back_to_str)}")',
+                hints: ['Use float(), int(), str() functions', 'Converting float to int truncates'],
+            },
+            {
+                id: 'ex-py02-3',
+                title: 'Multiple Assignment',
+                difficulty: 'beginner',
+                points: 15,
+                instructions: 'Assign values to three variables in one line, then print them.',
+                initialCode: '# Multiple assignment in one line',
+                solution: 'a, b, c = 1, 2, 3\nprint(f"a={a}, b={b}, c={c}")',
+                hints: ['Use a, b, c = values syntax'],
             }
         ]
     },
@@ -64,22 +122,50 @@ const pythonLessons = [
         completed: false,
         content: [
             { type: 'heading', content: 'Printing Output' },
-            { type: 'code', content: 'print("Hello!")             # Basic\nprint("A", "B", "C")       # Multiple values\nprint("Name:", "Alex")     # Label + value\nprint("Line 1\\nLine 2")   # Newline character' },
+            { type: 'code', content: 'print("Hello!")\nprint("A", "B", "C")\nprint("Name:", "Alex")' },
             { type: 'heading', content: 'F-Strings (Formatted Output)' },
-            { type: 'text', content: 'F-strings let you embed variables directly inside strings with curly braces:' },
             { type: 'code', content: 'name = "Alex"\nscore = 98\nprint(f"Player {name} scored {score} points!")' },
             { type: 'heading', content: 'Reading User Input' },
-            { type: 'code', content: 'name = input("Enter your name: ")\nprint(f"Welcome, {name}!")\n\nage = int(input("Enter your age: "))  # Convert to int\nprint(f"In 10 years you will be {age + 10}")' },
+            { type: 'code', content: 'name = input("Enter your name: ")\nprint(f"Welcome, {name}!")' },
             { type: 'note', content: 'input() always returns a string. Use int() or float() to convert it to a number before doing math.' },
+        ],
+        keyTakeaways: [
+            'print() displays output to the console',
+            'f-strings embed variables in strings with {}',
+            'input() reads user input as a string',
+            'Convert input with int() or float() for numbers',
+            'sep and end parameters customize print behavior'
         ],
         exercises: [
             {
                 id: 'ex-py03-1',
                 title: 'Rectangle Area Calculator',
-                instructions: 'Ask the user for length and width (floats), then compute and print the area (length * width).',
-                initialCode: '# Get length and width from user\n# Compute area\n# Print result',
+                difficulty: 'beginner',
+                points: 15,
+                instructions: 'Ask user for length and width, calculate area.',
+                initialCode: '# Get length and width\n# Calculate and print area',
                 solution: 'length = float(input("Enter length: "))\nwidth = float(input("Enter width: "))\narea = length * width\nprint(f"The area is {area:.2f}")',
-                hints: ['Use float() to convert input.', 'Use f-string formatting for two decimals.']
+                hints: ['Use float() to convert input', 'Use f-string formatting for two decimals'],
+            },
+            {
+                id: 'ex-py03-2',
+                title: 'Personal Info Formatter',
+                difficulty: 'beginner',
+                points: 15,
+                instructions: 'Ask for name, age, and city, then print a formatted sentence.',
+                initialCode: '# Get name, age, city\n# Print formatted sentence',
+                solution: 'name = input("Enter your name: ")\nage = input("Enter your age: ")\ncity = input("Enter your city: ")\nprint(f"Hello {name}! You are {age} years old and live in {city}.")',
+                hints: ['Store each input in a variable', 'Use f-string for formatting'],
+            },
+            {
+                id: 'ex-py03-3',
+                title: 'Simple Calculator',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Ask for two numbers, then print their sum, difference, product, and quotient.',
+                initialCode: '# Get two numbers\n# Calculate and print results',
+                solution: 'a = float(input("Enter first number: "))\nb = float(input("Enter second number: "))\nprint(f"Sum: {a + b}")\nprint(f"Difference: {a - b}")\nprint(f"Product: {a * b}")\nprint(f"Quotient: {a / b}")',
+                hints: ['Convert input to float for decimal support', 'Use separate print statements'],
             }
         ]
     },
@@ -90,22 +176,50 @@ const pythonLessons = [
         completed: false,
         content: [
             { type: 'heading', content: 'If / Elif / Else' },
-            { type: 'code', content: 'score = 85\n\nif score >= 90:\n    print("Grade: A")\nelif score >= 80:\n    print("Grade: B")\nelif score >= 70:\n    print("Grade: C")\nelse:\n    print("Grade: F")' },
-            { type: 'heading', content: 'Comparison Operators' },
-            { type: 'list', items: ['== equal to', '!= not equal', '> greater than', '< less than', '>= greater or equal', '<= less or equal'] },
+            { type: 'code', content: 'score = 85\n\nif score >= 90:\n    print("Grade: A")\nelif score >= 80:\n    print("Grade: B")\nelse:\n    print("Grade: F")' },
             { type: 'heading', content: 'For Loop' },
-            { type: 'code', content: '# Loop over a range\nfor i in range(5):\n    print(f"Step {i}")\n\n# Loop over a list\ntools = ["vim", "gdb", "gcc"]\nfor tool in tools:\n    print(f"Using {tool}")' },
+            { type: 'code', content: 'for i in range(5):\n    print(f"Step {i}")\n\nfruits = ["apple", "banana", "cherry"]\nfor fruit in fruits:\n    print(fruit)' },
             { type: 'heading', content: 'While Loop' },
-            { type: 'code', content: 'count = 0\nwhile count < 5:\n    print(f"Count: {count}")\n    count += 1\n\nprint("Done!")' },
+            { type: 'code', content: 'count = 0\nwhile count < 5:\n    print(f"Count: {count}")\n    count += 1' },
+            { type: 'note', content: 'Python uses indentation for blocks. Be consistent with spaces (4 spaces recommended).' },
+        ],
+        keyTakeaways: [
+            'if/elif/else for conditional execution',
+            'for loops iterate over sequences and ranges',
+            'while loops continue while condition is true',
+            'break exits a loop, continue skips to next iteration',
+            'Indentation defines code blocks'
         ],
         exercises: [
             {
                 id: 'ex-py04-1',
-                title: 'Sum of First N Numbers',
-                instructions: 'Ask the user for a positive integer n, then use a loop to calculate the sum of numbers from 1 to n. Print the result.',
-                initialCode: 'n = int(input("Enter n: "))\ntotal = 0\n# Your loop here\nprint(f"Sum: {total}")',
-                solution: 'n = int(input("Enter n: "))\ntotal = 0\nfor i in range(1, n+1):\n    total += i\nprint(f"Sum: {total}")',
-                hints: ['Use range(1, n+1).', 'Initialize total = 0.']
+                title: 'Sum of Numbers',
+                difficulty: 'beginner',
+                points: 10,
+                instructions: 'Calculate sum of numbers from 1 to 100 using a for loop.',
+                initialCode: 'total = 0\n# Your loop here\nprint(f"Sum: {total}")',
+                solution: 'total = 0\nfor i in range(1, 101):\n    total += i\nprint(f"Sum: {total}")',
+                hints: ['Use range(1, 101)', 'Add i to total each iteration'],
+            },
+            {
+                id: 'ex-py04-2',
+                title: 'Number Guessing Game',
+                difficulty: 'intermediate',
+                points: 25,
+                instructions: 'Create a guessing game where the user guesses a secret number (1-100). Give hints "too high" or "too low".',
+                initialCode: 'secret = 42\n# Guessing loop',
+                solution: 'secret = 42\nwhile True:\n    guess = int(input("Guess the number (1-100): "))\n    if guess == secret:\n        print("Correct!")\n        break\n    elif guess < secret:\n        print("Too low!")\n    else:\n        print("Too high!")',
+                hints: ['Use while True loop', 'Break when guessed correctly', 'Use if/elif for hints'],
+            },
+            {
+                id: 'ex-py04-3',
+                title: 'FizzBuzz',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Print numbers 1 to 50. For multiples of 3 print "Fizz", for 5 print "Buzz", for both print "FizzBuzz".',
+                initialCode: '# Your FizzBuzz implementation',
+                solution: 'for i in range(1, 51):\n    if i % 3 == 0 and i % 5 == 0:\n        print("FizzBuzz")\n    elif i % 3 == 0:\n        print("Fizz")\n    elif i % 5 == 0:\n        print("Buzz")\n    else:\n        print(i)',
+                hints: ['Check divisibility with % operator', 'Check both conditions first'],
             }
         ]
     },
@@ -115,24 +229,51 @@ const pythonLessons = [
         description: 'Define reusable blocks of code with parameters and return values.',
         completed: false,
         content: [
-            { type: 'heading', content: 'Defining a Function' },
+            { type: 'heading', content: 'Defining Functions' },
             { type: 'code', content: 'def greet(name):\n    print(f"Hello, {name}!")\n\ngreet("Alex")\ngreet("World")' },
             { type: 'heading', content: 'Return Values' },
-            { type: 'code', content: 'def add(a, b):\n    return a + b\n\nresult = add(10, 25)\nprint(result)  # 35' },
+            { type: 'code', content: 'def add(a, b):\n    return a + b\n\nresult = add(10, 25)\nprint(result)' },
             { type: 'heading', content: 'Default Parameters' },
-            { type: 'code', content: 'def power(base, exponent=2):\n    return base ** exponent\n\nprint(power(3))     # 9  (uses default)\nprint(power(2, 10)) # 1024' },
-            { type: 'heading', content: 'Multiple Return Values' },
-            { type: 'code', content: 'def min_max(numbers):\n    return min(numbers), max(numbers)\n\nlow, high = min_max([4, 2, 9, 1, 7])\nprint(f"Min: {low}, Max: {high}")' },
-            { type: 'note', content: 'Functions should do one thing and do it well. Keep them short and focused — this is called the Single Responsibility Principle.' },
+            { type: 'code', content: 'def power(base, exponent=2):\n    return base ** exponent\n\nprint(power(3))     # 9\nprint(power(2, 10)) # 1024' },
+            { type: 'note', content: 'Functions should do one thing and do it well — Single Responsibility Principle.' },
+        ],
+        keyTakeaways: [
+            'def keyword defines functions',
+            'Parameters are inputs to functions',
+            'return sends a value back to caller',
+            'Default parameters provide fallback values',
+            'Docstrings document function purpose'
         ],
         exercises: [
             {
                 id: 'ex-py05-1',
-                title: 'Fahrenheit to Celsius',
-                instructions: 'Write a function `f_to_c(f)` that converts Fahrenheit to Celsius (formula: (f - 32) * 5/9). Then call it with a few test values.',
-                initialCode: 'def f_to_c(f):\n    # Your code\n    pass\n\n# Test calls',
-                solution: 'def f_to_c(f):\n    return (f - 32) * 5 / 9\n\nprint(f_to_c(32))   # 0.0\nprint(f_to_c(212))  # 100.0\nprint(f_to_c(98.6)) # 37.0',
-                hints: ['Use floating point division (/).']
+                title: 'Temperature Converter',
+                difficulty: 'beginner',
+                points: 15,
+                instructions: 'Write a function to convert Celsius to Fahrenheit.',
+                initialCode: 'def celsius_to_fahrenheit(celsius):\n    # Return Fahrenheit\n\n# Test the function',
+                solution: 'def celsius_to_fahrenheit(celsius):\n    return celsius * 9/5 + 32\n\nprint(celsius_to_fahrenheit(0))   # 32.0\nprint(celsius_to_fahrenheit(100)) # 212.0',
+                hints: ['Formula: F = C * 9/5 + 32'],
+            },
+            {
+                id: 'ex-py05-2',
+                title: 'is_even Function',
+                difficulty: 'beginner',
+                points: 15,
+                instructions: 'Write a function that returns True if a number is even, False otherwise.',
+                initialCode: 'def is_even(n):\n    # Return boolean\n\n# Test with various numbers',
+                solution: 'def is_even(n):\n    return n % 2 == 0\n\nprint(is_even(4))   # True\nprint(is_even(7))   # False',
+                hints: ['Use modulo operator %', 'Return boolean directly'],
+            },
+            {
+                id: 'ex-py05-3',
+                title: 'Factorial Function',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Write a recursive function to calculate factorial.',
+                initialCode: 'def factorial(n):\n    # Recursive implementation\n\nprint(factorial(5)) # Should print 120',
+                solution: 'def factorial(n):\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))',
+                hints: ['Base case: n <= 1 returns 1', 'Recursive case: n * factorial(n-1)'],
             }
         ]
     },
@@ -145,21 +286,48 @@ const pythonLessons = [
             { type: 'heading', content: 'Creating Lists' },
             { type: 'code', content: 'fruits = ["apple", "banana", "cherry"]\nnumbers = [1, 2, 3, 4]\nmixed = [1, "hello", 3.14, True]' },
             { type: 'heading', content: 'List Operations' },
-            { type: 'code', content: 'fruits = ["apple", "banana"]\nfruits.append("orange")    # add at end\nfruits.insert(1, "kiwi")   # insert at index\nfruits.remove("banana")     # remove by value\nprint(fruits[0])            # access by index\nprint(fruits[-1])           # last element' },
+            { type: 'code', content: 'fruits.append("orange")\nfruits.insert(1, "kiwi")\nfruits.remove("banana")\nprint(fruits[0])\nprint(fruits[-1])' },
             { type: 'heading', content: 'Slicing' },
-            { type: 'code', content: 'nums = [0, 1, 2, 3, 4, 5]\nprint(nums[2:5])   # [2, 3, 4]\nprint(nums[:3])    # [0, 1, 2]\nprint(nums[3:])    # [3, 4, 5]\nprint(nums[::2])   # [0, 2, 4]' },
-            { type: 'heading', content: 'Tuples (Immutable)' },
-            { type: 'code', content: 'coordinates = (10, 20)\nprint(coordinates[0])   # 10\n# coordinates[0] = 5   # ERROR: tuple is immutable' },
-            { type: 'note', content: 'Lists are mutable (changeable); tuples are immutable. Use tuples for fixed data like days of the week.' },
+            { type: 'code', content: 'nums = [0, 1, 2, 3, 4, 5]\nprint(nums[2:5])   # [2, 3, 4]\nprint(nums[:3])    # [0, 1, 2]\nprint(nums[::2])   # [0, 2, 4]' },
+            { type: 'note', content: 'Lists are mutable; tuples are immutable. Use tuples for fixed data.' },
+        ],
+        keyTakeaways: [
+            'Lists store ordered, mutable sequences',
+            'Use [] to create lists',
+            'Indexing starts at 0',
+            'Slicing creates sublists',
+            'Tuples are immutable lists'
         ],
         exercises: [
             {
                 id: 'ex-py06-1',
                 title: 'List Reversal',
-                instructions: 'Given the list `[1, 2, 3, 4, 5]`, reverse it without using the built-in `reverse()` method. Print the reversed list.',
-                initialCode: 'nums = [1, 2, 3, 4, 5]\n# Your reversal code\nprint(nums)',
+                difficulty: 'beginner',
+                points: 15,
+                instructions: 'Reverse a list without using reverse() method.',
+                initialCode: 'nums = [1, 2, 3, 4, 5]\n# Reverse using slicing\nprint(nums)',
                 solution: 'nums = [1, 2, 3, 4, 5]\nreversed_nums = nums[::-1]\nprint(reversed_nums)',
-                hints: ['Use slicing with step -1.']
+                hints: ['Use slicing with step -1'],
+            },
+            {
+                id: 'ex-py06-2',
+                title: 'List Comprehension',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Create a list of squares for numbers 1 to 10 using list comprehension.',
+                initialCode: '# List comprehension for squares\nsquares = []\nprint(squares)',
+                solution: 'squares = [x**2 for x in range(1, 11)]\nprint(squares)',
+                hints: ['Syntax: [expression for item in iterable]'],
+            },
+            {
+                id: 'ex-py06-3',
+                title: 'Even Numbers Filter',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Filter a list to only include even numbers using list comprehension.',
+                initialCode: 'numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nevens = # Your comprehension\nprint(evens)',
+                solution: 'numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nevens = [n for n in numbers if n % 2 == 0]\nprint(evens)',
+                hints: ['Add if condition after the for clause'],
             }
         ]
     },
@@ -172,19 +340,38 @@ const pythonLessons = [
             { type: 'heading', content: 'Creating Dictionaries' },
             { type: 'code', content: 'student = {\n    "name": "Alice",\n    "age": 20,\n    "courses": ["Math", "CS"]\n}' },
             { type: 'heading', content: 'Accessing & Modifying' },
-            { type: 'code', content: 'print(student["name"])       # Alice\nstudent["age"] = 21\nstudent["grade"] = "A"      # add new key\n\n# Safe access with .get()\nprint(student.get("major", "Not set"))' },
-            { type: 'heading', content: 'Iterating Over Dictionaries' },
-            { type: 'code', content: 'for key, value in student.items():\n    print(f"{key}: {value}")\n\nfor key in student.keys():\n    print(key)\n\nfor value in student.values():\n    print(value)' },
-            { type: 'note', content: 'Dictionaries are unordered (before Python 3.7, now they remember insertion order). Use keys that are immutable (strings, numbers, tuples).' },
+            { type: 'code', content: 'print(student["name"])\nstudent["age"] = 21\nstudent["grade"] = "A"\nprint(student.get("major", "Not set"))' },
+            { type: 'heading', content: 'Iterating' },
+            { type: 'code', content: 'for key, value in student.items():\n    print(f"{key}: {value}")' },
+            { type: 'note', content: 'Use keys that are immutable (strings, numbers, tuples).' },
+        ],
+        keyTakeaways: [
+            'Dictionaries store key-value pairs',
+            'Keys must be immutable',
+            'Use .get() for safe access',
+            'items() yields key-value pairs',
+            'Dictionaries are unordered (but preserve insertion order in Python 3.7+)'
         ],
         exercises: [
             {
                 id: 'ex-py07-1',
-                title: 'Phonebook Lookup',
-                instructions: 'Create a dictionary with names as keys and phone numbers as values. Write a loop that asks the user for a name and prints the number, or "Not found" if missing. Exit when user types "quit".',
-                initialCode: 'phonebook = {"Alice": "123-4567", "Bob": "987-6543"}\n# Your loop',
+                title: 'Phonebook',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Create a phonebook dictionary and implement lookup.',
+                initialCode: 'phonebook = {"Alice": "123-4567", "Bob": "987-6543"}\n# Lookup loop',
                 solution: 'phonebook = {"Alice": "123-4567", "Bob": "987-6543"}\nwhile True:\n    name = input("Enter name (or quit): ")\n    if name == "quit":\n        break\n    number = phonebook.get(name)\n    if number:\n        print(f"{name}: {number}")\n    else:\n        print("Not found")',
-                hints: ['Use .get() to avoid KeyError.']
+                hints: ['Use .get() to avoid KeyError'],
+            },
+            {
+                id: 'ex-py07-2',
+                title: 'Word Counter',
+                difficulty: 'intermediate',
+                points: 25,
+                instructions: 'Count the frequency of each word in a sentence using a dictionary.',
+                initialCode: 'sentence = "the quick brown fox jumps over the lazy dog"\n# Count word frequencies',
+                solution: 'sentence = "the quick brown fox jumps over the lazy dog"\nwords = sentence.split()\nword_count = {}\nfor word in words:\n    word_count[word] = word_count.get(word, 0) + 1\nprint(word_count)',
+                hints: ['Split string into words', 'Use .get() with default 0'],
             }
         ]
     },
@@ -195,20 +382,39 @@ const pythonLessons = [
         completed: false,
         content: [
             { type: 'heading', content: 'Useful String Methods' },
-            { type: 'code', content: 'text = "  Hello, World!  "\nprint(text.strip())      # "Hello, World!"\nprint(text.lower())      # "  hello, world!  "\nprint(text.upper())      # "  HELLO, WORLD!  "\nprint(text.replace("World", "Python"))\nprint(text.split(","))   # ["  Hello", " World!  "]' },
+            { type: 'code', content: 'text = "  Hello, World!  "\nprint(text.strip())\nprint(text.lower())\nprint(text.upper())\nprint(text.replace("World", "Python"))\nprint(text.split(","))' },
             { type: 'heading', content: 'Checking Content' },
-            { type: 'code', content: 'text = "Python123"\nprint(text.isalpha())  # False (has digits)\nprint(text.isalnum())  # True\nprint(text.startswith("Py"))  # True\nprint(text.endswith("123"))   # True' },
-            { type: 'heading', content: 'Joining and Splitting' },
-            { type: 'code', content: 'words = ["apple", "banana", "cherry"]\nresult = "-".join(words)\nprint(result)   # "apple-banana-cherry"\n\noriginal = result.split("-")\nprint(original) # ["apple", "banana", "cherry"]' },
+            { type: 'code', content: 'print("Python123".isalpha())\nprint("Python123".isalnum())\nprint("Hello".startswith("He"))' },
+            { type: 'heading', content: 'Joining' },
+            { type: 'code', content: 'words = ["apple", "banana", "cherry"]\nresult = "-".join(words)\nprint(result)' },
+        ],
+        keyTakeaways: [
+            'Strings have many built-in methods',
+            'strip() removes whitespace',
+            'lower()/upper() change case',
+            'split() breaks string into list',
+            'join() combines list into string'
         ],
         exercises: [
             {
                 id: 'ex-py08-1',
                 title: 'Palindrome Checker',
-                instructions: 'Write a function `is_palindrome(s)` that returns True if the string reads the same forwards and backwards (ignoring case and spaces). Test with "A man a plan a canal panama".',
-                initialCode: 'def is_palindrome(s):\n    # Normalize and check\n    pass\n\nprint(is_palindrome("racecar"))   # True\nprint(is_palindrome("hello"))     # False',
-                solution: 'def is_palindrome(s):\n    normalized = s.replace(" ", "").lower()\n    return normalized == normalized[::-1]\n\nprint(is_palindrome("racecar"))\nprint(is_palindrome("A man a plan a canal panama"))\nprint(is_palindrome("hello"))',
-                hints: ['Use .replace(" ", "") to remove spaces.', 'Use slicing [::-1] to reverse.']
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Check if a string reads the same forwards and backwards.',
+                initialCode: 'def is_palindrome(s):\n    # Your code\n    pass\n\nprint(is_palindrome("racecar"))\nprint(is_palindrome("hello"))',
+                solution: 'def is_palindrome(s):\n    s = s.lower().replace(" ", "")\n    return s == s[::-1]\n\nprint(is_palindrome("racecar"))\nprint(is_palindrome("A man a plan a canal panama"))',
+                hints: ['Remove spaces', 'Convert to lowercase', 'Compare with reversed string'],
+            },
+            {
+                id: 'ex-py08-2',
+                title: 'Email Extractor',
+                difficulty: 'intermediate',
+                points: 25,
+                instructions: 'Extract the username and domain from an email address.',
+                initialCode: 'email = "user@example.com"\n# Extract username and domain',
+                solution: 'email = "user@example.com"\nparts = email.split("@")\nusername = parts[0]\ndomain = parts[1]\nprint(f"Username: {username}")\nprint(f"Domain: {domain}")',
+                hints: ['Use split("@") to separate'],
             }
         ]
     },
@@ -219,23 +425,39 @@ const pythonLessons = [
         completed: false,
         content: [
             { type: 'heading', content: 'Basic Syntax' },
-            { type: 'code', content: 'squares = [x**2 for x in range(10)]\nprint(squares)  # [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]' },
+            { type: 'code', content: 'squares = [x**2 for x in range(10)]\nprint(squares)' },
             { type: 'heading', content: 'With Condition' },
-            { type: 'code', content: 'even_squares = [x**2 for x in range(10) if x % 2 == 0]\nprint(even_squares)  # [0, 4, 16, 36, 64]' },
-            { type: 'heading', content: 'Using Expressions' },
-            { type: 'code', content: 'words = ["hello", "world", "python"]\nupper_words = [word.upper() for word in words]\nprint(upper_words)  # ["HELLO", "WORLD", "PYTHON"]' },
-            { type: 'heading', content: 'Nested Loops' },
-            { type: 'code', content: 'pairs = [(x, y) for x in [1,2] for y in [3,4]]\nprint(pairs)  # [(1,3), (1,4), (2,3), (2,4)]' },
-            { type: 'note', content: 'List comprehensions are faster and more readable than manual for‑loops for simple transformations.' },
+            { type: 'code', content: 'evens = [x for x in range(10) if x % 2 == 0]\nprint(evens)' },
+            { type: 'heading', content: 'Nested Comprehensions' },
+            { type: 'code', content: 'matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\nflattened = [num for row in matrix for num in row]\nprint(flattened)' },
+        ],
+        keyTakeaways: [
+            'List comprehensions are concise',
+            'Syntax: [expr for item in iterable if condition]',
+            'More readable than map/filter for simple cases',
+            'Can be nested for multi-dimensional data',
+            'Use for simple transformations'
         ],
         exercises: [
             {
                 id: 'ex-py09-1',
-                title: 'Even Numbers Only',
-                instructions: 'Given a list of numbers, use a list comprehension to create a new list containing only the even numbers. Example: [1,2,3,4,5,6] → [2,4,6]',
-                initialCode: 'numbers = [10, 15, 22, 33, 44, 55]\nevens = # Your comprehension\nprint(evens)',
-                solution: 'numbers = [10, 15, 22, 33, 44, 55]\nevens = [n for n in numbers if n % 2 == 0]\nprint(evens)',
-                hints: ['Use `if n % 2 == 0` inside the comprehension.']
+                title: 'Squares of Evens',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Create a list of squares of even numbers from 1 to 20.',
+                initialCode: '# List comprehension here\nresult = []\nprint(result)',
+                solution: 'result = [x**2 for x in range(1, 21) if x % 2 == 0]\nprint(result)',
+                hints: ['Use if condition in comprehension', 'x**2 for square'],
+            },
+            {
+                id: 'ex-py09-2',
+                title: 'Matrix Transpose',
+                difficulty: 'advanced',
+                points: 30,
+                instructions: 'Transpose a 3x3 matrix using nested list comprehension.',
+                initialCode: 'matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\n# Transpose using comprehension\nprint(transpose)',
+                solution: 'matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]\ntranspose = [[row[i] for row in matrix] for i in range(3)]\nprint(transpose)',
+                hints: ['Outer loop over columns', 'Inner loop over rows'],
             }
         ]
     },
@@ -245,22 +467,40 @@ const pythonLessons = [
         description: 'Read from and write to files on disk.',
         completed: false,
         content: [
-            { type: 'heading', content: 'Writing to a File' },
+            { type: 'heading', content: 'Writing to Files' },
             { type: 'code', content: 'with open("output.txt", "w") as file:\n    file.write("Hello, file!\\n")\n    file.write("Second line\\n")' },
-            { type: 'heading', content: 'Reading from a File' },
+            { type: 'heading', content: 'Reading from Files' },
             { type: 'code', content: 'with open("output.txt", "r") as file:\n    content = file.read()\n    print(content)\n\n# Read line by line\nwith open("output.txt", "r") as file:\n    for line in file:\n        print(line.strip())' },
             { type: 'heading', content: 'Appending' },
             { type: 'code', content: 'with open("output.txt", "a") as file:\n    file.write("This line is appended\\n")' },
-            { type: 'note', content: 'Always use a `with` statement (context manager) — it automatically closes the file, even if an error occurs.' },
+        ],
+        keyTakeaways: [
+            'Use with statement for automatic closing',
+            'Modes: "r" read, "w" write, "a" append',
+            'read() reads entire file',
+            'readline() reads one line',
+            'Write with write() method'
         ],
         exercises: [
             {
                 id: 'ex-py10-1',
-                title: 'Write and Read Back',
-                instructions: 'Write a program that asks the user for 3 numbers, writes each on a new line to "numbers.txt", then reads the file back and prints the sum of the numbers.',
-                initialCode: '# Write three numbers\n\n# Read and sum',
-                solution: 'with open("numbers.txt", "w") as f:\n    for i in range(3):\n        num = input(f"Enter number {i+1}: ")\n        f.write(num + "\\n")\n\ntotal = 0\nwith open("numbers.txt", "r") as f:\n    for line in f:\n        total += int(line.strip())\nprint(f"Sum: {total}")',
-                hints: ['Use int() when reading back.', 'strip() removes newline characters.']
+                title: 'Number Writer/Reader',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Write numbers to file, then read back and sum them.',
+                initialCode: '# Write numbers to file\n# Read and sum',
+                solution: 'with open("numbers.txt", "w") as f:\n    for i in range(1, 6):\n        f.write(f"{i}\\n")\n\ntotal = 0\nwith open("numbers.txt", "r") as f:\n    for line in f:\n        total += int(line.strip())\nprint(f"Sum: {total}")',
+                hints: ['Use strip() to remove newline', 'Convert to int for summing'],
+            },
+            {
+                id: 'ex-py10-2',
+                title: 'File Copy',
+                difficulty: 'intermediate',
+                points: 25,
+                instructions: 'Copy contents from one file to another.',
+                initialCode: '# Copy source.txt to destination.txt',
+                solution: 'with open("source.txt", "r") as source:\n    content = source.read()\nwith open("destination.txt", "w") as dest:\n    dest.write(content)',
+                hints: ['Read from source', 'Write to destination'],
             }
         ]
     },
@@ -271,48 +511,58 @@ const pythonLessons = [
         completed: false,
         content: [
             { type: 'heading', content: 'Basic Try/Except' },
-            { type: 'code', content: 'try:\n    x = int(input("Enter a number: "))\n    print(f"100 / {x} = {100/x}")\nexcept ValueError:\n    print("That was not a valid number!")\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")' },
+            { type: 'code', content: 'try:\n    x = int(input("Enter a number: "))\n    print(f"100 / {x} = {100/x}")\nexcept ValueError:\n    print("Not a valid number!")\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")' },
             { type: 'heading', content: 'Else and Finally' },
-            { type: 'code', content: 'try:\n    file = open("data.txt", "r")\nexcept FileNotFoundError:\n    print("File not found")\nelse:\n    print(file.read())\n    file.close()\nfinally:\n    print("Execution complete")' },
-            { type: 'heading', content: 'Raising Exceptions' },
-            { type: 'code', content: 'def set_age(age):\n    if age < 0:\n        raise ValueError("Age cannot be negative")\n    return age' },
-            { type: 'note', content: 'Catch specific exceptions, not just a bare `except:`. This prevents hiding unexpected bugs.' },
+            { type: 'code', content: 'try:\n    file = open("data.txt", "r")\nexcept FileNotFoundError:\n    print("File not found")\nelse:\n    print(file.read())\n    file.close()\nfinally:\n    print("Complete")' },
+        ],
+        keyTakeaways: [
+            'try/except catches exceptions',
+            'Catch specific exceptions',
+            'else runs if no exception',
+            'finally always runs',
+            'Use raise to throw exceptions'
         ],
         exercises: [
             {
                 id: 'ex-py11-1',
                 title: 'Safe Division',
-                instructions: 'Write a program that asks for two numbers and divides them. Handle division by zero and non‑numeric input gracefully.',
-                initialCode: '# Get numerator and denominator\n# Try division',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Handle division by zero and invalid input.',
+                initialCode: '# Get numerator and denominator\n# Handle exceptions',
                 solution: 'try:\n    a = float(input("Numerator: "))\n    b = float(input("Denominator: "))\n    result = a / b\n    print(f"Result: {result}")\nexcept ZeroDivisionError:\n    print("Cannot divide by zero!")\nexcept ValueError:\n    print("Please enter valid numbers.")',
-                hints: ['Use float() conversion inside try block.']
+                hints: ['Catch ValueError for invalid input', 'Catch ZeroDivisionError for division by zero'],
             }
         ]
     },
     {
         id: 'py-12',
         title: 'Modules & Packages',
-        description: 'Organize code across multiple files and use the standard library.',
+        description: 'Organize code across multiple files.',
         completed: false,
         content: [
             { type: 'heading', content: 'Importing Modules' },
-            { type: 'code', content: 'import math\nimport random\nfrom datetime import datetime\n\nprint(math.sqrt(16))          # 4.0\nprint(random.randint(1, 10))  # random integer\nprint(datetime.now())         # current time' },
-            { type: 'heading', content: 'Creating Your Own Module' },
-            { type: 'text', content: 'Save the following as `mymodule.py`:' },
-            { type: 'code', content: '# mymodule.py\ndef greet(name):\n    return f"Hello, {name}!"\n\nPI = 3.14159' },
-            { type: 'text', content: 'Then import and use it in another file:' },
-            { type: 'code', content: 'import mymodule\nprint(mymodule.greet("Alice"))\nprint(mymodule.PI)' },
+            { type: 'code', content: 'import math\nimport random\nfrom datetime import datetime\n\nprint(math.sqrt(16))\nprint(random.randint(1, 10))\nprint(datetime.now())' },
             { type: 'heading', content: 'Aliasing' },
-            { type: 'code', content: 'import numpy as np   # common alias\nfrom math import sqrt as square_root' },
+            { type: 'code', content: 'import numpy as np\nfrom math import sqrt as square_root' },
+        ],
+        keyTakeaways: [
+            'import brings external modules',
+            'from imports specific functions',
+            'as creates aliases',
+            'Python has extensive standard library',
+            'Create your own modules with .py files'
         ],
         exercises: [
             {
                 id: 'ex-py12-1',
-                title: 'Roll a Die',
-                instructions: 'Use the `random` module to simulate rolling a six‑sided die 10 times. Print each result.',
-                initialCode: 'import random\n# Your loop',
+                title: 'Random Dice Roller',
+                difficulty: 'beginner',
+                points: 15,
+                instructions: 'Simulate rolling a die 10 times using random module.',
+                initialCode: 'import random\n# Roll die 10 times',
                 solution: 'import random\nfor _ in range(10):\n    print(random.randint(1, 6))',
-                hints: ['Use randint(1, 6).']
+                hints: ['Use randint(1, 6)'],
             }
         ]
     },
@@ -323,48 +573,236 @@ const pythonLessons = [
         completed: false,
         content: [
             { type: 'heading', content: 'Defining a Class' },
-            { type: 'code', content: 'class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n    \n    def bark(self):\n        return f"{self.name} says Woof!"\n    \n    def get_human_years(self):\n        return self.age * 7\n\n# Create an object\nmy_dog = Dog("Rex", 3)\nprint(my_dog.bark())\nprint(my_dog.get_human_years())' },
-            { type: 'heading', content: 'Class vs Instance Variables' },
-            { type: 'code', content: 'class Player:\n    species = "Human"   # class variable\n    \n    def __init__(self, name):\n        self.name = name   # instance variable' },
+            { type: 'code', content: 'class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n    \n    def bark(self):\n        return f"{self.name} says Woof!"\n\nmy_dog = Dog("Rex", 3)\nprint(my_dog.bark())' },
             { type: 'heading', content: 'Inheritance' },
-            { type: 'code', content: 'class Student(Person):\n    def __init__(self, name, student_id):\n        super().__init__(name)\n        self.student_id = student_id' },
-            { type: 'note', content: '`self` refers to the current instance. Always include it as the first parameter of instance methods.' },
+            { type: 'code', content: 'class Animal:\n    def speak(self):\n        pass\n\nclass Cat(Animal):\n    def speak(self):\n        return "Meow!"' },
+        ],
+        keyTakeaways: [
+            'Classes define blueprints for objects',
+            '__init__ is constructor method',
+            'self refers to current instance',
+            'Inheritance reuses parent class code',
+            'Encapsulation hides internal details'
         ],
         exercises: [
             {
                 id: 'ex-py13-1',
-                title: 'Bank Account Class',
-                instructions: 'Create a `BankAccount` class with `owner`, `balance` attributes, and methods `deposit(amount)`, `withdraw(amount)`. Ensure withdrawal does not exceed balance.',
-                initialCode: 'class BankAccount:\n    def __init__(self, owner, balance=0):\n        # your code\n        pass\n    # methods\n\n# Test it',
-                solution: 'class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n    \n    def deposit(self, amount):\n        self.balance += amount\n        return self.balance\n    \n    def withdraw(self, amount):\n        if amount > self.balance:\n            print("Insufficient funds")\n        else:\n            self.balance -= amount\n        return self.balance\n\nacc = BankAccount("Alice", 100)\nacc.deposit(50)\nacc.withdraw(30)\nprint(acc.balance)  # 120',
-                hints: ['Check withdrawal condition with if.']
+                title: 'Bank Account',
+                difficulty: 'intermediate',
+                points: 25,
+                instructions: 'Create BankAccount class with deposit/withdraw methods.',
+                initialCode: 'class BankAccount:\n    def __init__(self, owner, balance=0):\n        # Initialize\n    def deposit(self, amount):\n        # Add money\n    def withdraw(self, amount):\n        # Remove money with check',
+                solution: 'class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n    \n    def deposit(self, amount):\n        self.balance += amount\n        return self.balance\n    \n    def withdraw(self, amount):\n        if amount > self.balance:\n            print("Insufficient funds")\n        else:\n            self.balance -= amount\n        return self.balance\n\nacc = BankAccount("Alice", 100)\nacc.deposit(50)\nacc.withdraw(30)\nprint(acc.balance)',
+                hints: ['Check balance before withdrawal', 'Update balance after transaction'],
             }
         ]
     },
     {
         id: 'py-14',
-        title: 'Lambda Functions & Map/Filter',
-        description: 'Write small anonymous functions and use functional programming tools.',
+        title: 'Lambda & Map/Filter',
+        description: 'Functional programming tools in Python.',
         completed: false,
         content: [
             { type: 'heading', content: 'Lambda Functions' },
-            { type: 'code', content: 'square = lambda x: x**2\nprint(square(5))  # 25\n\n# Often used inline\nresult = (lambda a, b: a + b)(3, 4)\nprint(result)  # 7' },
+            { type: 'code', content: 'square = lambda x: x**2\nprint(square(5))' },
             { type: 'heading', content: 'map()' },
-            { type: 'code', content: 'numbers = [1, 2, 3, 4]\nsquared = list(map(lambda x: x**2, numbers))\nprint(squared)  # [1, 4, 9, 16]' },
+            { type: 'code', content: 'numbers = [1, 2, 3, 4]\nsquared = list(map(lambda x: x**2, numbers))\nprint(squared)' },
             { type: 'heading', content: 'filter()' },
-            { type: 'code', content: 'numbers = [1, 2, 3, 4, 5, 6]\nevens = list(filter(lambda x: x % 2 == 0, numbers))\nprint(evens)  # [2, 4, 6]' },
-            { type: 'heading', content: 'Combining with List Comprehensions' },
-            { type: 'text', content: 'Often list comprehensions are more readable, but lambdas are useful for small throwaway functions.' },
-            { type: 'code', content: '# List comprehension equivalent:\nsquared = [x**2 for x in numbers]\nevens = [x for x in numbers if x % 2 == 0]' },
+            { type: 'code', content: 'evens = list(filter(lambda x: x % 2 == 0, numbers))\nprint(evens)' },
+        ],
+        keyTakeaways: [
+            'Lambda: anonymous one-line functions',
+            'map applies function to every item',
+            'filter keeps items that satisfy condition',
+            'Often replaceable with list comprehensions',
+            'Use for simple, throwaway functions'
         ],
         exercises: [
             {
                 id: 'ex-py14-1',
-                title: 'Celsius to Fahrenheit with map',
-                instructions: 'Given a list of Celsius temperatures `[0, 20, 30, 40]`, use `map` and a lambda to convert each to Fahrenheit (F = C*9/5+32). Print the new list.',
+                title: 'Temperature Conversion with map',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Convert list of Celsius temps to Fahrenheit using map.',
                 initialCode: 'celsius = [0, 20, 30, 40]\n# Use map and lambda\nfahrenheit = list(...)\nprint(fahrenheit)',
-                solution: 'celsius = [0, 20, 30, 40]\nfahrenheit = list(map(lambda c: c * 9/5 + 32, celsius))\nprint(fahrenheit)  # [32.0, 68.0, 86.0, 104.0]',
-                hints: ['The lambda takes one argument and returns the formula.']
+                solution: 'celsius = [0, 20, 30, 40]\nfahrenheit = list(map(lambda c: c * 9/5 + 32, celsius))\nprint(fahrenheit)',
+                hints: ['Lambda takes one argument', 'Formula: c * 9/5 + 32'],
+            }
+        ]
+    },
+    {
+        id: 'py-15',
+        title: 'Decorators',
+        description: 'Modify function behavior with decorators.',
+        completed: false,
+        content: [
+            { type: 'heading', content: 'Basic Decorator' },
+            { type: 'code', content: 'def timer(func):\n    def wrapper(*args, **kwargs):\n        import time\n        start = time.time()\n        result = func(*args, **kwargs)\n        print(f"Took {time.time()-start:.2f}s")\n        return result\n    return wrapper\n\n@timer\ndef slow_function():\n    import time\n    time.sleep(1)\n    return "Done"\n\nslow_function()' },
+        ],
+        keyTakeaways: [
+            'Decorators wrap functions',
+            'Use @decorator syntax',
+            'Common for logging, timing, caching',
+            'Can stack multiple decorators',
+            'Preserve function metadata with functools.wraps'
+        ],
+        exercises: [
+            {
+                id: 'ex-py15-1',
+                title: 'Logging Decorator',
+                difficulty: 'advanced',
+                points: 30,
+                instructions: 'Create a decorator that logs function calls with arguments.',
+                initialCode: 'def logger(func):\n    # Your decorator\n    pass\n\n@logger\ndef add(a, b):\n    return a + b\n\nadd(3, 5)',
+                solution: 'def logger(func):\n    def wrapper(*args, **kwargs):\n        print(f"Calling {func.__name__} with args={args}, kwargs={kwargs}")\n        result = func(*args, **kwargs)\n        print(f"Returned: {result}")\n        return result\n    return wrapper\n\n@logger\ndef add(a, b):\n    return a + b\n\nadd(3, 5)',
+                hints: ['Use *args and **kwargs', 'Print before and after calling'],
+            }
+        ]
+    },
+    {
+        id: 'py-16',
+        title: 'Generators',
+        description: 'Create memory-efficient iterators with yield.',
+        completed: false,
+        content: [
+            { type: 'heading', content: 'Generator Functions' },
+            { type: 'code', content: 'def count_up_to(n):\n    i = 0\n    while i < n:\n        yield i\n        i += 1\n\nfor num in count_up_to(5):\n    print(num)' },
+            { type: 'heading', content: 'Generator Expressions' },
+            { type: 'code', content: 'squares = (x**2 for x in range(10))\nprint(next(squares))' },
+        ],
+        keyTakeaways: [
+            'Generators yield values one at a time',
+            'Memory efficient for large sequences',
+            'Use yield instead of return',
+            'Generator expressions use () not []',
+            'Can only iterate once'
+        ],
+        exercises: [
+            {
+                id: 'ex-py16-1',
+                title: 'Fibonacci Generator',
+                difficulty: 'intermediate',
+                points: 25,
+                instructions: 'Create a generator that yields Fibonacci numbers.',
+                initialCode: 'def fibonacci():\n    # Yield Fibonacci numbers\n    pass\n\n# Test: print first 10 Fibonacci numbers',
+                solution: 'def fibonacci():\n    a, b = 0, 1\n    while True:\n        yield a\n        a, b = b, a + b\n\nfib = fibonacci()\nfor _ in range(10):\n    print(next(fib))',
+                hints: ['Start with a=0, b=1', 'Yield a, then update'],
+            }
+        ]
+    },
+    {
+        id: 'py-17',
+        title: 'Working with JSON',
+        description: 'Parse and generate JSON data.',
+        completed: false,
+        content: [
+            { type: 'heading', content: 'JSON in Python' },
+            { type: 'code', content: 'import json\n\n# Convert dict to JSON\ndata = {"name": "Alice", "age": 25}\njson_str = json.dumps(data)\nprint(json_str)\n\n# Convert JSON to dict\nparsed = json.loads(json_str)\nprint(parsed["name"])' },
+        ],
+        keyTakeaways: [
+            'json.dumps() converts to string',
+            'json.loads() parses from string',
+            'json.dump() writes to file',
+            'json.load() reads from file',
+            'Common for APIs and config files'
+        ],
+        exercises: [
+            {
+                id: 'ex-py17-1',
+                title: 'JSON File Reader',
+                difficulty: 'intermediate',
+                points: 20,
+                instructions: 'Read a JSON file and print specific fields.',
+                initialCode: 'import json\n# Read data.json and print all names',
+                solution: 'import json\nwith open("data.json", "r") as f:\n    data = json.load(f)\nfor item in data:\n    print(item["name"])',
+                hints: ['Use json.load() for files', 'Iterate through list'],
+            }
+        ]
+    },
+    {
+        id: 'py-18',
+        title: 'Regular Expressions',
+        description: 'Pattern matching with regex.',
+        completed: false,
+        content: [
+            { type: 'heading', content: 'Basic Regex' },
+            { type: 'code', content: 'import re\n\ntext = "My email is alice@example.com"\npattern = r"\\w+@\\w+\\.\\w+"\nemail = re.search(pattern, text)\nif email:\n    print(email.group())' },
+        ],
+        keyTakeaways: [
+            're module provides regex support',
+            'search() finds first match',
+            'findall() finds all matches',
+            'Raw strings (r"...") recommended',
+            'Common for validation and extraction'
+        ],
+        exercises: [
+            {
+                id: 'ex-py18-1',
+                title: 'Email Validator',
+                difficulty: 'advanced',
+                points: 30,
+                instructions: 'Validate email addresses using regex.',
+                initialCode: 'import re\n\ndef is_valid_email(email):\n    # Return True if valid\n    pass',
+                solution: 'import re\n\ndef is_valid_email(email):\n    pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"\n    return bool(re.match(pattern, email))\n\nprint(is_valid_email("alice@example.com"))\nprint(is_valid_email("invalid"))',
+                hints: ['Use re.match()', 'Common pattern: username@domain.tld'],
+            }
+        ]
+    },
+    {
+        id: 'py-19',
+        title: 'Multithreading',
+        description: 'Run multiple tasks concurrently.',
+        completed: false,
+        content: [
+            { type: 'heading', content: 'Threading Basics' },
+            { type: 'code', content: 'import threading\nimport time\n\ndef print_numbers():\n    for i in range(5):\n        time.sleep(1)\n        print(i)\n\ndef print_letters():\n    for letter in "ABCDE":\n        time.sleep(1)\n        print(letter)\n\nthread1 = threading.Thread(target=print_numbers)\nthread2 = threading.Thread(target=print_letters)\nthread1.start()\nthread2.start()\nthread1.join()\nthread2.join()' },
+        ],
+        keyTakeaways: [
+            'Threading allows concurrent execution',
+            'Use threading.Thread() to create threads',
+            'start() begins execution',
+            'join() waits for completion',
+            'Be careful with shared data'
+        ],
+        exercises: [
+            {
+                id: 'ex-py19-1',
+                title: 'Parallel Counter',
+                difficulty: 'advanced',
+                points: 35,
+                instructions: 'Run two counters simultaneously using threads.',
+                initialCode: 'import threading\n# Create and start two threads\n# Each counts to 10',
+                solution: 'import threading\nimport time\n\ndef counter(name, limit):\n    for i in range(limit):\n        print(f"{name}: {i}")\n        time.sleep(0.5)\n\nt1 = threading.Thread(target=counter, args=("A", 10))\nt2 = threading.Thread(target=counter, args=("B", 10))\nt1.start()\nt2.start()\nt1.join()\nt2.join()',
+                hints: ['Pass arguments via args tuple', 'Use sleep to see concurrency'],
+            }
+        ]
+    },
+    {
+        id: 'py-20',
+        title: 'Web Requests with Requests',
+        description: 'Fetch data from the web.',
+        completed: false,
+        content: [
+            { type: 'heading', content: 'Making Requests' },
+            { type: 'code', content: 'import requests\n\nresponse = requests.get("https://api.github.com/users/octocat")\nif response.status_code == 200:\n    data = response.json()\n    print(f"Name: {data["name"]}")\n    print(f"Followers: {data["followers"]}")' },
+        ],
+        keyTakeaways: [
+            'requests.get() fetches data',
+            'Check status_code for success',
+            '.json() parses JSON response',
+            'Handle exceptions for network errors',
+            'Install: pip install requests'
+        ],
+        exercises: [
+            {
+                id: 'ex-py20-1',
+                title: 'API Fetcher',
+                difficulty: 'advanced',
+                points: 35,
+                instructions: 'Fetch and display random user data from randomuser.me API.',
+                initialCode: 'import requests\n# Fetch random user data\n# Print name and location',
+                solution: 'import requests\n\nresponse = requests.get("https://randomuser.me/api/")\nif response.status_code == 200:\n    data = response.json()\n    user = data["results"][0]\n    name = f"{user["name"]["first"]} {user["name"]["last"]}"\n    location = f"{user["location"]["city"]}, {user["location"]["country"]}"\n    print(f"Name: {name}")\n    print(f"Location: {location}")',
+                hints: ['Check status_code', 'Navigate nested JSON carefully'],
             }
         ]
     }
