@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Sidebar.jsx';
 import LessonView from '../components/LessonView.jsx';
 import pythonLessons from '../data/pythonLessons.js';
+import { useUserProgress } from '../context/UserProgressContext.jsx';
 
 export default function LearnPY() {
     const navigate = useNavigate();
     const { lessonId } = useParams();
+    const { progress } = useUserProgress();
+    const [activeTab, setActiveTab] = useState('lesson');
 
     const currentLesson = lessonId
         ? pythonLessons.find(lesson => lesson.id === lessonId)
@@ -16,6 +19,14 @@ export default function LearnPY() {
     const currentIdx = currentLesson
         ? pythonLessons.findIndex(lesson => lesson.id === currentLesson.id)
         : 0;
+
+    // Calculează progresul exercițiilor
+    const totalExercises = currentLesson?.exercises?.length || 0;
+    const completedExercises = currentLesson?.exercises?.filter(ex =>
+        progress['python']?.[currentLesson?.id]?.exercises?.[ex.id]?.completed
+    ).length || 0;
+
+    const isCompleted = progress['python']?.[currentLesson?.id]?.completed || false;
 
     const handleSelectLesson = (lesson) => {
         navigate(`/learn-py/${lesson.id}`);
@@ -75,6 +86,11 @@ export default function LearnPY() {
                         currentLesson={currentLesson}
                         onSelectLesson={handleSelectLesson}
                         onBack={handleBack}
+                        activeTab={activeTab}
+                        onTabChange={setActiveTab}
+                        completedExercises={completedExercises}
+                        totalExercises={totalExercises}
+                        isCompleted={isCompleted}
                     />
                     <div style={{ flex: 1, overflowY: 'auto', padding: '0 20px' }}>
                         <LessonView
@@ -86,6 +102,7 @@ export default function LearnPY() {
                             hasNext={currentIdx < pythonLessons.length - 1}
                             hasPrev={currentIdx > 0}
                             onMarkComplete={handleMarkComplete}
+                            activeTab={activeTab}
                         />
                     </div>
                 </div>

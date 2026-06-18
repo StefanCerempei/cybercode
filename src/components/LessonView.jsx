@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import LessonContent from './LessonContent.jsx';
-import CodeEditor from './CodeEditor.jsx';
+import LessonContent from '../components/LessonContent.jsx';
+import CodeEditor from '../components/CodeEditor.jsx';
 import { ACCENT } from '../utils/constants.js';
 import { useUserProgress } from '../context/UserProgressContext.jsx';
 import axios from 'axios';
 
-const TABS = [
-    { id: 'lesson', label: '📖 LESSON' },
-    { id: 'exercises', label: '✏️ EXERCISES' },
-    { id: 'coding', label: '💻 CODE PLAYGROUND' },
-    { id: 'notes', label: '📝 NOTES' },
-];
-
-const API_URL = 'http://localhost:3001/api';
-
-export default function LessonView({ lesson, language, onNext, onPrev, hasNext, hasPrev }) {
-    const [tab, setTab] = useState('lesson');
+export default function LessonView({
+                                       lesson,
+                                       language,
+                                       onNext,
+                                       onPrev,
+                                       hasNext,
+                                       hasPrev,
+                                       activeTab = 'lesson'
+                                   }) {
     const [notes, setNotes] = useState('');
     const [exerciseAnswers, setExerciseAnswers] = useState({});
     const [exerciseResults, setExerciseResults] = useState({});
@@ -23,6 +21,13 @@ export default function LessonView({ lesson, language, onNext, onPrev, hasNext, 
     const [codingOutput, setCodingOutput] = useState('');
     const [codingError, setCodingError] = useState('');
     const [isRunning, setIsRunning] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const { progress, markLessonComplete, markExerciseComplete } = useUserProgress();
     const accent = ACCENT[language];
@@ -49,7 +54,6 @@ export default function LessonView({ lesson, language, onNext, onPrev, hasNext, 
         const exercise = lesson.exercises?.find(e => e.id === exerciseId);
         if (!exercise) return;
 
-        // Simple answer checking (can be enhanced)
         const normalize = (s) => s.trim().toLowerCase().replace(/\s+/g, ' ');
         const isCorrect = normalize(userAnswer) === normalize(exercise.solution);
 
@@ -66,23 +70,25 @@ export default function LessonView({ lesson, language, onNext, onPrev, hasNext, 
         setCodingError('');
 
         try {
-            const response = await axios.post(`${API_URL}/execute`, {
-                language,
-                code: codingCode,
+            const response = await axios.post('https://emkc.org/api/v2/piston/execute', {
+                language: language === 'c' ? 'c' : 'python',
+                version: language === 'c' ? '10.2.0' : '3.10.0',
+                files: [{ content: codingCode }],
                 stdin: ''
             });
 
-            if (response.data.error) {
-                setCodingError(response.data.error);
+            if (response.data.run.stderr) {
+                setCodingError(response.data.run.stderr);
             }
-            if (response.data.output) {
-                setCodingOutput(response.data.output);
+            if (response.data.run.output) {
+                setCodingOutput(response.data.run.output);
             }
-            if (response.data.code !== 0 && !response.data.error) {
-                setCodingError(`Process exited with code ${response.data.code}`);
+            if (response.data.run.code !== 0 && !response.data.run.stderr) {
+                setCodingError(`Process exited with code ${response.data.run.code}`);
             }
         } catch (err) {
-            setCodingError(err.response?.data?.error || 'Failed to execute code. Make sure the backend server is running on port 3001.');
+            console.error('Execution error:', err);
+            setCodingError(`Execution failed: ${err.message}. Please try again.`);
         } finally {
             setIsRunning(false);
         }
@@ -96,7 +102,6 @@ int main() {
     printf("Welcome to CyberCode!\\n");
     printf("Practice coding in C right here!\\n");
     
-    // Try modifying this code
     int a = 10, b = 20;
     printf("%d + %d = %d\\n", a, b, a + b);
     
@@ -107,7 +112,6 @@ int main() {
 print("Welcome to CyberCode!")
 print("Practice coding in Python right here!")
 
-# Try modifying this code
 a = 10
 b = 20
 print(f"{a} + {b} = {a + b}")
@@ -119,59 +123,86 @@ for i in range(5):
     };
 
     useEffect(() => {
-        if (tab === 'coding' && !codingCode) {
+        if (activeTab === 'coding' && !codingCode) {
             setCodingCode(getSampleCode());
         }
-    }, [tab, language]);
+    }, [activeTab, language]);
 
     const totalExercises = lesson.exercises?.length || 0;
     const completedExercises = lesson.exercises?.filter(ex =>
         progress[language]?.[lesson.id]?.exercises?.[ex.id]?.completed
     ).length || 0;
 
+    // Stiluri comune
+    const cardStyle = {
+        background: 'rgba(0, 20, 30, 0.6)',
+        border: '1px solid rgba(0, 245, 255, 0.15)',
+        borderRadius: '12px',
+        padding: isMobile ? '16px' : '24px',
+        marginBottom: '16px',
+    };
+
+    const headingStyle = {
+        fontFamily: 'var(--font-display)',
+        fontWeight: 700,
+        fontSize: isMobile ? '20px' : '28px',
+        color: 'var(--text-primary)',
+        marginBottom: '8px',
+    };
+
+    const subHeadingStyle = {
+        fontFamily: 'var(--font-ui)',
+        fontSize: isMobile ? '13px' : '15px',
+        color: 'var(--text-secondary)',
+        marginBottom: '16px',
+    };
+
     return (
         <div style={{
-            flex: 1, display: 'flex', flexDirection: 'column',
-            height: '100vh', overflow: 'hidden',
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100vh',
+            overflow: 'hidden',
             background: 'var(--bg-primary)',
         }}>
-            {/* Top bar */}
+            {/* Top bar - doar cu MARK COMPLETE */}
             <div style={{
                 borderBottom: '1px solid var(--border)',
-                padding: '0 32px',
+                padding: isMobile ? '8px 16px' : '12px 32px',
                 background: 'var(--bg-secondary)',
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                minHeight: 64, flexShrink: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                minHeight: isMobile ? 48 : 56,
+                flexShrink: 0,
+                gap: '8px',
                 flexWrap: 'wrap',
-                gap: '10px',
             }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-                    {TABS.map(t => (
-                        <button
-                            key={t.id}
-                            onClick={() => setTab(t.id)}
-                            style={{
-                                background: 'transparent', border: 'none',
-                                borderBottom: tab === t.id ? `2px solid ${accent}` : '2px solid transparent',
-                                padding: '20px 0', cursor: 'pointer',
-                                fontFamily: 'var(--font-mono)', fontSize: 11,
-                                letterSpacing: '0.15em', textTransform: 'uppercase',
-                                color: tab === t.id ? accent : 'var(--text-muted)',
-                                transition: 'all 0.2s',
-                            }}
-                        >
-                            {t.label}
-                        </button>
-                    ))}
-                    {totalExercises > 0 && tab !== 'exercises' && (
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    flexWrap: 'wrap',
+                }}>
+                    <span style={{
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: isMobile ? '9px' : '11px',
+                        color: 'var(--text-muted)',
+                        letterSpacing: '0.05em',
+                    }}>
+                        {language === 'c' ? 'C' : 'Python'} / {lesson.id?.split('-')[1] || '01'}
+                    </span>
+                    {totalExercises > 0 && (
                         <span style={{
-                            fontSize: '10px',
+                            fontSize: isMobile ? '8px' : '10px',
                             color: completedExercises === totalExercises ? accent : 'var(--text-muted)',
-                            background: 'rgba(0,245,255,0.1)',
-                            padding: '2px 8px',
-                            borderRadius: '20px',
+                            background: 'rgba(0,245,255,0.08)',
+                            padding: '2px 10px',
+                            borderRadius: '12px',
+                            border: `1px solid ${completedExercises === totalExercises ? accent : 'rgba(0,245,255,0.1)'}`,
                         }}>
-                            {completedExercises}/{totalExercises} exercises done
+                            {completedExercises}/{totalExercises} ex
                         </span>
                     )}
                 </div>
@@ -181,62 +212,71 @@ for i in range(5):
                     style={{
                         background: isCompleted ? accent : 'transparent',
                         border: `1px solid ${isCompleted ? accent : 'var(--border)'}`,
-                        borderRadius: 2, padding: '7px 18px', cursor: 'pointer',
-                        fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.1em',
+                        borderRadius: '4px',
+                        padding: isMobile ? '4px 12px' : '7px 18px',
+                        cursor: 'pointer',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: isMobile ? '9px' : '11px',
+                        letterSpacing: '0.05em',
                         color: isCompleted ? 'var(--bg-primary)' : 'var(--text-muted)',
                         transition: 'all 0.2s',
+                        whiteSpace: 'nowrap',
                     }}
                 >
-                    {isCompleted ? '✓ COMPLETED' : 'MARK COMPLETE'}
+                    {isCompleted ? '✓ COMPLETED' : isMobile ? '✓ Done' : 'MARK COMPLETE'}
                 </button>
             </div>
 
-            {/* Content */}
-            <div style={{ flex: 1, overflowY: 'auto', padding: '36px 40px 40px' }}>
-                {tab === 'lesson' && (
+            {/* Content - afișează doar tab-ul activ */}
+            <div style={{
+                flex: 1,
+                overflowY: 'auto',
+                padding: isMobile ? '12px 14px 20px' : '24px 40px 40px',
+            }}>
+                {activeTab === 'lesson' && (
                     <>
-                        <div style={{ marginBottom: 32, animation: 'fadeIn 0.4s ease' }}>
-                            <div style={{
-                                fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.25em',
-                                color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: 8,
-                            }}>
-                                <span style={{ color: accent }}>▸</span>{' '}
-                                {language === 'c' ? 'C PROGRAMMING' : 'PYTHON'} / LESSON {lesson.id.split('-')[1]}
-                            </div>
+                        <div style={{ marginBottom: isMobile ? '16px' : '32px' }}>
                             <h1 style={{
-                                fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 32,
-                                color: 'var(--text-primary)', lineHeight: 1.2,
-                                letterSpacing: '-0.01em', marginBottom: 12,
+                                fontFamily: 'var(--font-display)',
+                                fontWeight: 800,
+                                fontSize: isMobile ? '22px' : '32px',
+                                color: 'var(--text-primary)',
+                                lineHeight: 1.2,
+                                marginBottom: '8px',
                             }}>
                                 {lesson.title}
                             </h1>
                             {lesson.description && (
                                 <p style={{
-                                    fontFamily: 'var(--font-ui)', fontSize: 15,
-                                    color: 'var(--text-muted)', lineHeight: 1.6, maxWidth: 600,
+                                    fontFamily: 'var(--font-ui)',
+                                    fontSize: isMobile ? '13px' : '15px',
+                                    color: 'var(--text-muted)',
+                                    lineHeight: 1.5,
                                 }}>
                                     {lesson.description}
                                 </p>
                             )}
-                            <div style={{
-                                marginTop: 16, height: 1, maxWidth: 400,
-                                background: `linear-gradient(90deg, ${accent}, transparent)`,
-                                opacity: 0.3,
-                            }} />
                         </div>
                         <LessonContent lesson={lesson} language={language} />
 
-                        {/* Key Takeaways */}
                         {lesson.keyTakeaways && (
                             <div style={{
-                                marginTop: '40px',
-                                padding: '20px',
+                                marginTop: '24px',
+                                padding: isMobile ? '16px' : '20px',
                                 background: `linear-gradient(135deg, ${accent}10, transparent)`,
                                 borderLeft: `3px solid ${accent}`,
                                 borderRadius: '8px',
                             }}>
-                                <h3 style={{ color: accent, marginBottom: '12px' }}>🎯 Key Takeaways</h3>
-                                <ul style={{ color: 'var(--text-secondary)', lineHeight: '1.8' }}>
+                                <h3 style={{ color: accent, marginBottom: '8px', fontSize: isMobile ? '14px' : '16px' }}>
+                                    🎯 Key Takeaways
+                                </h3>
+                                <ul style={{
+                                    color: 'var(--text-secondary)',
+                                    lineHeight: '1.8',
+                                    paddingLeft: '20px',
+                                    fontSize: isMobile ? '13px' : '14px',
+                                    margin: 0,
+                                }}>
                                     {lesson.keyTakeaways.map((takeaway, i) => (
                                         <li key={i}>{takeaway}</li>
                                     ))}
@@ -246,25 +286,14 @@ for i in range(5):
                     </>
                 )}
 
-                {tab === 'exercises' && (
-                    <div style={{ animation: 'fadeIn 0.3s ease' }}>
-                        <div style={{ marginBottom: '24px' }}>
-                            <h2 style={{
-                                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 24,
-                                color: 'var(--text-primary)', marginBottom: 8,
-                            }}>
-                                Practice Exercises
-                            </h2>
-                            <p style={{ color: 'var(--text-secondary)' }}>
-                                Complete these exercises to test your understanding.
-                                {totalExercises > 0 && ` You've completed ${completedExercises} of ${totalExercises}.`}
-                            </p>
-                            {totalExercises === 0 && (
-                                <p style={{ color: 'var(--accent-cyan)', marginTop: '12px' }}>
-                                    More exercises coming soon for this lesson!
-                                </p>
-                            )}
-                        </div>
+                {activeTab === 'exercises' && (
+                    <div>
+                        <h2 style={headingStyle}>Practice Exercises</h2>
+                        <p style={subHeadingStyle}>
+                            {totalExercises > 0
+                                ? `You've completed ${completedExercises} of ${totalExercises}.`
+                                : 'Exercises coming soon!'}
+                        </p>
 
                         {lesson.exercises?.map((exercise, idx) => {
                             const isCompleted = progress[language]?.[lesson.id]?.exercises?.[exercise.id]?.completed;
@@ -277,40 +306,48 @@ for i in range(5):
 
                             return (
                                 <div key={exercise.id} style={{
-                                    background: 'rgba(0, 20, 30, 0.6)',
-                                    border: `1px solid ${isCompleted ? accent : 'rgba(0, 245, 255, 0.2)'}`,
-                                    borderRadius: '12px',
-                                    padding: '24px',
-                                    marginBottom: '24px',
-                                    transition: 'all 0.3s',
+                                    ...cardStyle,
+                                    borderColor: isCompleted ? accent : 'rgba(0, 245, 255, 0.15)',
+                                    padding: isMobile ? '14px' : '24px',
                                 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'flex-start',
+                                        marginBottom: '12px',
+                                        flexWrap: 'wrap',
+                                        gap: '8px',
+                                    }}>
                                         <div>
-                                            <h3 style={{ color: isCompleted ? accent : 'var(--accent-cyan)', marginBottom: '4px' }}>
-                                                Exercise {idx + 1}: {exercise.title}
+                                            <h3 style={{
+                                                color: isCompleted ? accent : 'var(--accent-cyan)',
+                                                fontSize: isMobile ? '15px' : '17px',
+                                                marginBottom: '4px',
+                                            }}>
+                                                {idx + 1}. {exercise.title}
                                             </h3>
-                                            <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
+                                            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                                                 {exercise.difficulty && (
                                                     <span style={{
-                                                        fontSize: '10px',
+                                                        fontSize: '9px',
                                                         padding: '2px 8px',
-                                                        borderRadius: '20px',
+                                                        borderRadius: '12px',
                                                         background: `${diffColor}20`,
                                                         color: diffColor,
-                                                        border: `1px solid ${diffColor}40`,
+                                                        border: `1px solid ${diffColor}30`,
                                                     }}>
                                                         {exercise.difficulty.toUpperCase()}
                                                     </span>
                                                 )}
                                                 {exercise.points && (
                                                     <span style={{
-                                                        fontSize: '10px',
+                                                        fontSize: '9px',
                                                         padding: '2px 8px',
-                                                        borderRadius: '20px',
+                                                        borderRadius: '12px',
                                                         background: 'rgba(0,245,255,0.1)',
                                                         color: 'var(--accent-cyan)',
                                                     }}>
-                                                        🎯 {exercise.points} points
+                                                        🎯 {exercise.points} pts
                                                     </span>
                                                 )}
                                             </div>
@@ -320,32 +357,32 @@ for i in range(5):
                                         )}
                                     </div>
 
-                                    <p style={{ color: 'var(--text-secondary)', marginBottom: '16px', lineHeight: '1.7' }}>
+                                    <p style={{
+                                        color: 'var(--text-secondary)',
+                                        fontSize: isMobile ? '13px' : '14px',
+                                        lineHeight: '1.6',
+                                        marginBottom: '12px',
+                                    }}>
                                         {exercise.instructions}
                                     </p>
 
-                                    {exercise.example && (
-                                        <div style={{
-                                            background: '#060c18',
-                                            padding: '12px',
-                                            borderRadius: '8px',
-                                            marginBottom: '16px',
-                                            fontFamily: 'var(--font-mono)',
-                                            fontSize: '12px',
-                                        }}>
-                                            <div style={{ color: accent, marginBottom: '8px' }}>📘 Example:</div>
-                                            <pre style={{ color: 'var(--text-secondary)', margin: 0 }}>{exercise.example}</pre>
-                                        </div>
-                                    )}
-
                                     {exercise.hints && exercise.hints.length > 0 && (
-                                        <details style={{ marginBottom: '16px' }}>
-                                            <summary style={{ color: 'var(--accent-cyan)', cursor: 'pointer', fontSize: '13px' }}>
-                                                💡 Show Hints ({exercise.hints.length})
+                                        <details style={{ marginBottom: '12px' }}>
+                                            <summary style={{
+                                                color: 'var(--accent-cyan)',
+                                                cursor: 'pointer',
+                                                fontSize: isMobile ? '12px' : '13px',
+                                            }}>
+                                                💡 Hint
                                             </summary>
-                                            <ul style={{ marginTop: '12px', paddingLeft: '20px', color: 'var(--text-muted)' }}>
+                                            <ul style={{
+                                                marginTop: '8px',
+                                                paddingLeft: '20px',
+                                                color: 'var(--text-muted)',
+                                                fontSize: isMobile ? '12px' : '13px',
+                                            }}>
                                                 {exercise.hints.map((hint, i) => (
-                                                    <li key={i} style={{ marginBottom: '8px' }}>{hint}</li>
+                                                    <li key={i}>{hint}</li>
                                                 ))}
                                             </ul>
                                         </details>
@@ -360,48 +397,77 @@ for i in range(5):
                                         }}
                                         style={{
                                             width: '100%',
-                                            padding: '12px',
+                                            padding: '10px',
                                             background: 'rgba(0,0,0,0.5)',
-                                            border: `1px solid ${exerciseResults[exercise.id] === true ? '#00ff88' : exerciseResults[exercise.id] === false ? '#ff2d55' : 'rgba(0,245,255,0.3)'}`,
+                                            border: `1px solid ${
+                                                exerciseResults[exercise.id] === true
+                                                    ? '#00ff88'
+                                                    : exerciseResults[exercise.id] === false
+                                                        ? '#ff2d55'
+                                                        : 'rgba(0,245,255,0.3)'
+                                            }`,
                                             borderRadius: '8px',
                                             color: 'var(--text-primary)',
                                             fontFamily: 'var(--font-mono)',
-                                            fontSize: '13px',
-                                            marginBottom: '12px',
-                                            minHeight: '120px',
+                                            fontSize: isMobile ? '12px' : '13px',
+                                            marginBottom: '10px',
+                                            minHeight: isMobile ? '80px' : '100px',
                                             resize: 'vertical',
                                         }}
                                     />
 
-                                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                    <div style={{
+                                        display: 'flex',
+                                        gap: '10px',
+                                        alignItems: 'center',
+                                        flexWrap: 'wrap',
+                                    }}>
                                         <button
                                             onClick={() => checkExercise(exercise.id, exerciseAnswers[exercise.id] || '')}
                                             disabled={isCompleted}
                                             style={{
-                                                background: isCompleted ? accent : 'linear-gradient(90deg, var(--accent-cyan), #00aacc)',
+                                                background: isCompleted
+                                                    ? accent
+                                                    : `linear-gradient(90deg, ${accent}, #00aacc)`,
                                                 border: 'none',
                                                 color: isCompleted ? '#000' : '#fff',
-                                                padding: '8px 20px',
-                                                borderRadius: '30px',
+                                                padding: isMobile ? '6px 16px' : '8px 20px',
+                                                borderRadius: '20px',
                                                 cursor: isCompleted ? 'default' : 'pointer',
                                                 fontWeight: 'bold',
-                                                fontSize: '12px',
+                                                fontSize: isMobile ? '11px' : '12px',
                                             }}
                                         >
-                                            {isCompleted ? 'Completed!' : 'Check Solution'}
+                                            {isCompleted ? '✓ Done' : 'Check'}
                                         </button>
 
                                         {exerciseResults[exercise.id] !== undefined && !isCompleted && (
-                                            <span style={{ color: exerciseResults[exercise.id] ? '#00ff88' : '#ff2d55', fontSize: '13px' }}>
-                                                {exerciseResults[exercise.id] ? '✓ Correct! Great job!' : '✗ Not quite right. Try again!'}
+                                            <span style={{
+                                                color: exerciseResults[exercise.id] ? '#00ff88' : '#ff2d55',
+                                                fontSize: isMobile ? '12px' : '13px',
+                                            }}>
+                                                {exerciseResults[exercise.id] ? '✓ Correct!' : '✗ Try again'}
                                             </span>
                                         )}
                                     </div>
 
                                     {isCompleted && (
-                                        <div style={{ marginTop: '16px', padding: '16px', background: 'rgba(0,255,136,0.1)', borderRadius: '8px' }}>
-                                            <strong style={{ color: accent }}>📖 Sample Solution:</strong>
-                                            <pre style={{ marginTop: '12px', color: 'var(--text-secondary)', fontSize: '12px', overflow: 'auto' }}>
+                                        <div style={{
+                                            marginTop: '12px',
+                                            padding: '12px',
+                                            background: 'rgba(0,255,136,0.08)',
+                                            borderRadius: '8px',
+                                        }}>
+                                            <strong style={{ color: accent, fontSize: isMobile ? '12px' : '13px' }}>
+                                                📖 Solution:
+                                            </strong>
+                                            <pre style={{
+                                                marginTop: '6px',
+                                                color: 'var(--text-secondary)',
+                                                fontSize: isMobile ? '11px' : '12px',
+                                                overflow: 'auto',
+                                                fontFamily: 'var(--font-mono)',
+                                            }}>
                                                 {exercise.solution}
                                             </pre>
                                         </div>
@@ -409,75 +475,58 @@ for i in range(5):
                                 </div>
                             );
                         })}
-
-                        {/* Exercise completion celebration */}
-                        {totalExercises > 0 && completedExercises === totalExercises && !isCompleted && (
-                            <div style={{
-                                textAlign: 'center',
-                                padding: '30px',
-                                background: `linear-gradient(135deg, ${accent}20, transparent)`,
-                                borderRadius: '16px',
-                                marginTop: '20px',
-                            }}>
-                                <span style={{ fontSize: '48px' }}>🎉</span>
-                                <h3 style={{ color: accent, marginTop: '12px' }}>All exercises completed!</h3>
-                                <p style={{ color: 'var(--text-secondary)' }}>Don't forget to mark this lesson as complete above.</p>
-                            </div>
-                        )}
                     </div>
                 )}
 
-                {tab === 'coding' && (
-                    <div style={{ animation: 'fadeIn 0.3s ease' }}>
-                        <div style={{ marginBottom: '24px' }}>
-                            <h2 style={{
-                                fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 24,
-                                color: 'var(--text-primary)', marginBottom: 8,
-                            }}>
-                                Code Playground
-                            </h2>
-                            <p style={{ color: 'var(--text-secondary)' }}>
-                                Write, run, and experiment with {language === 'c' ? 'C' : 'Python'} code in real-time.
-                            </p>
-                        </div>
+                {activeTab === 'coding' && (
+                    <div>
+                        <h2 style={headingStyle}>Code Playground</h2>
+                        <p style={subHeadingStyle}>
+                            Write and run {language === 'c' ? 'C' : 'Python'} code.
+                        </p>
 
                         <div style={{
-                            display: 'grid',
-                            gridTemplateColumns: '1fr 1fr',
-                            gap: '20px',
-                            marginBottom: '20px',
+                            display: 'flex',
+                            flexDirection: isMobile ? 'column' : 'row',
+                            gap: isMobile ? '12px' : '20px',
+                            marginBottom: '16px',
                         }}>
                             {/* Code Editor */}
                             <div style={{
+                                flex: '1',
                                 background: 'rgba(0, 20, 30, 0.6)',
-                                border: '1px solid rgba(0, 245, 255, 0.2)',
+                                border: '1px solid rgba(0, 245, 255, 0.15)',
                                 borderRadius: '12px',
                                 overflow: 'hidden',
                             }}>
                                 <div style={{
-                                    padding: '12px 16px',
+                                    padding: isMobile ? '8px 12px' : '12px 16px',
                                     background: 'rgba(0,0,0,0.3)',
-                                    borderBottom: '1px solid rgba(0,245,255,0.2)',
+                                    borderBottom: '1px solid rgba(0,245,255,0.15)',
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
+                                    gap: '8px',
                                     flexWrap: 'wrap',
-                                    gap: '10px',
                                 }}>
-                                    <span style={{ color: accent, fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+                                    <span style={{
+                                        color: accent,
+                                        fontFamily: 'var(--font-mono)',
+                                        fontSize: isMobile ? '10px' : '12px',
+                                    }}>
                                         📝 {language === 'c' ? 'main.c' : 'main.py'}
                                     </span>
-                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                    <div style={{ display: 'flex', gap: '6px' }}>
                                         <button
                                             onClick={() => setCodingCode(getSampleCode())}
                                             style={{
                                                 background: 'rgba(0,245,255,0.1)',
                                                 border: '1px solid var(--accent-cyan)',
                                                 color: 'var(--accent-cyan)',
-                                                padding: '4px 12px',
-                                                borderRadius: '20px',
+                                                padding: isMobile ? '3px 8px' : '4px 12px',
+                                                borderRadius: '16px',
                                                 cursor: 'pointer',
-                                                fontSize: '11px',
+                                                fontSize: isMobile ? '9px' : '11px',
                                             }}
                                         >
                                             Reset
@@ -486,21 +535,23 @@ for i in range(5):
                                             onClick={runCodingCode}
                                             disabled={isRunning}
                                             style={{
-                                                background: isRunning ? '#555' : `linear-gradient(90deg, ${accent}, #00aacc)`,
+                                                background: isRunning
+                                                    ? '#555'
+                                                    : `linear-gradient(90deg, ${accent}, #00aacc)`,
                                                 border: 'none',
                                                 color: '#000',
-                                                padding: '4px 16px',
-                                                borderRadius: '20px',
+                                                padding: isMobile ? '3px 12px' : '4px 16px',
+                                                borderRadius: '16px',
                                                 cursor: isRunning ? 'not-allowed' : 'pointer',
                                                 fontWeight: 'bold',
-                                                fontSize: '11px',
+                                                fontSize: isMobile ? '9px' : '11px',
                                             }}
                                         >
-                                            {isRunning ? 'Running...' : '▶ Run'}
+                                            {isRunning ? '...' : '▶ Run'}
                                         </button>
                                     </div>
                                 </div>
-                                <div style={{ padding: '16px' }}>
+                                <div style={{ padding: isMobile ? '8px' : '16px' }}>
                                     <CodeEditor
                                         code={codingCode}
                                         language={language}
@@ -510,99 +561,87 @@ for i in range(5):
                                 </div>
                             </div>
 
-                            {/* Output Console */}
+                            {/* Output */}
                             <div style={{
+                                flex: '1',
                                 background: 'rgba(0, 20, 30, 0.6)',
-                                border: '1px solid rgba(0, 245, 255, 0.2)',
+                                border: '1px solid rgba(0, 245, 255, 0.15)',
                                 borderRadius: '12px',
-                                display: 'flex',
-                                flexDirection: 'column',
                             }}>
                                 <div style={{
-                                    padding: '12px 16px',
+                                    padding: isMobile ? '8px 12px' : '12px 16px',
                                     background: 'rgba(0,0,0,0.3)',
-                                    borderBottom: '1px solid rgba(0,245,255,0.2)',
+                                    borderBottom: '1px solid rgba(0,245,255,0.15)',
                                 }}>
-                                    <span style={{ color: accent, fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
-                                        💻 Output Console
+                                    <span style={{
+                                        color: accent,
+                                        fontFamily: 'var(--font-mono)',
+                                        fontSize: isMobile ? '10px' : '12px',
+                                    }}>
+                                        💻 Output
                                     </span>
                                 </div>
-                                <div style={{ padding: '16px', flex: 1 }}>
+                                <div style={{ padding: isMobile ? '10px' : '16px' }}>
                                     <pre style={{
                                         background: 'rgba(0,0,0,0.5)',
-                                        border: '1px solid rgba(0,245,255,0.3)',
+                                        border: '1px solid rgba(0,245,255,0.2)',
                                         borderRadius: '8px',
-                                        padding: '16px',
+                                        padding: isMobile ? '10px' : '16px',
                                         color: codingOutput ? '#00ff88' : 'var(--text-muted)',
                                         fontFamily: 'var(--font-mono)',
-                                        fontSize: '12px',
+                                        fontSize: isMobile ? '11px' : '12px',
                                         overflow: 'auto',
-                                        minHeight: '300px',
-                                        maxHeight: '400px',
+                                        minHeight: isMobile ? '80px' : '120px',
+                                        maxHeight: isMobile ? '150px' : '300px',
                                         whiteSpace: 'pre-wrap',
                                         wordBreak: 'break-word',
+                                        margin: 0,
                                     }}>
-                                        {codingOutput || 'Run your code to see output here...'}
+                                        {codingOutput || 'Run your code to see output...'}
                                     </pre>
                                     {codingError && (
                                         <pre style={{
-                                            marginTop: '16px',
+                                            marginTop: '10px',
                                             background: 'rgba(255,45,85,0.1)',
                                             border: '1px solid #ff2d55',
                                             borderRadius: '8px',
-                                            padding: '12px',
+                                            padding: '10px',
                                             color: '#ff6b8a',
                                             fontFamily: 'var(--font-mono)',
-                                            fontSize: '12px',
+                                            fontSize: isMobile ? '11px' : '12px',
                                             overflow: 'auto',
+                                            maxHeight: '100px',
                                         }}>
-                                            ⚠️ Error:\n{codingError}
+                                            ⚠️ {codingError}
                                         </pre>
                                     )}
                                 </div>
                             </div>
                         </div>
-
-                        {/* Tips */}
-                        <div style={{
-                            background: 'rgba(0, 20, 30, 0.6)',
-                            border: '1px solid rgba(0, 245, 255, 0.2)',
-                            borderRadius: '12px',
-                            padding: '16px 20px',
-                        }}>
-                            <h4 style={{ color: accent, marginBottom: '8px' }}>💡 Tips</h4>
-                            <ul style={{ color: 'var(--text-muted)', fontSize: '12px', lineHeight: '1.8', paddingLeft: '20px' }}>
-                                <li>Write any {language === 'c' ? 'C' : 'Python'} code you want to test</li>
-                                <li>Click Run to execute your code remotely</li>
-                                <li>Make sure the backend server is running on port 3001</li>
-                                <li>Use this playground to experiment with concepts from the lesson</li>
-                            </ul>
-                        </div>
                     </div>
                 )}
 
-                {tab === 'notes' && (
-                    <div style={{ animation: 'fadeIn 0.3s ease' }}>
-                        <h2 style={{
-                            fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 22,
-                            color: 'var(--text-primary)', marginBottom: 8,
-                        }}>
-                            Your Notes
-                        </h2>
-                        <p style={{ color: 'var(--text-secondary)', marginBottom: 20 }}>
-                            Notes are automatically saved to your browser.
-                        </p>
+                {activeTab === 'notes' && (
+                    <div>
+                        <h2 style={headingStyle}>Your Notes</h2>
+                        <p style={subHeadingStyle}>Notes are saved automatically.</p>
                         <textarea
-                            placeholder="Take notes on this lesson...\n\n- Key concepts you learned\n- Questions you have\n- Code snippets you want to remember"
+                            placeholder="Take notes on this lesson..."
                             value={notes}
                             onChange={(e) => saveNotes(e.target.value)}
                             style={{
-                                width: '100%', minHeight: 400,
+                                width: '100%',
+                                minHeight: isMobile ? '250px' : '350px',
                                 background: 'var(--bg-card)',
                                 border: '1px solid var(--border)',
-                                borderRadius: 4, padding: 20,
-                                fontFamily: 'var(--font-ui)', fontSize: 14, lineHeight: 1.7,
-                                color: 'var(--text-primary)', resize: 'vertical', outline: 'none',
+                                borderRadius: '8px',
+                                padding: isMobile ? '14px' : '20px',
+                                fontFamily: 'var(--font-ui)',
+                                fontSize: isMobile ? '13px' : '14px',
+                                lineHeight: '1.7',
+                                color: 'var(--text-primary)',
+                                resize: 'vertical',
+                                outline: 'none',
                                 caretColor: accent,
                             }}
                             onFocus={e => (e.target.style.borderColor = accent)}
@@ -615,10 +654,13 @@ for i in range(5):
             {/* Bottom nav */}
             <div style={{
                 borderTop: '1px solid var(--border)',
-                padding: '14px 32px',
+                padding: isMobile ? '8px 12px' : '12px 32px',
                 background: 'var(--bg-secondary)',
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 flexShrink: 0,
+                gap: '8px',
             }}>
                 <button
                     onClick={onPrev}
@@ -626,24 +668,34 @@ for i in range(5):
                     style={{
                         background: 'transparent',
                         border: `1px solid ${hasPrev ? 'var(--border)' : 'rgba(255,255,255,0.05)'}`,
-                        borderRadius: 2, padding: '9px 20px',
+                        borderRadius: '4px',
+                        padding: isMobile ? '6px 12px' : '9px 20px',
                         cursor: hasPrev ? 'pointer' : 'not-allowed',
-                        fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.1em',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: isMobile ? '9px' : '11px',
+                        letterSpacing: '0.05em',
                         color: hasPrev ? 'var(--text-secondary)' : 'var(--text-muted)',
-                        opacity: hasPrev ? 1 : 0.4, transition: 'all 0.2s',
+                        opacity: hasPrev ? 1 : 0.4,
+                        transition: 'all 0.2s',
                     }}
-                    onMouseEnter={e => hasPrev && (e.currentTarget.style.borderColor = accent)}
-                    onMouseLeave={e => hasPrev && (e.currentTarget.style.borderColor = 'var(--border)')}
                 >
-                    ← PREV
+                    ← {isMobile ? '' : 'PREV'}
                 </button>
 
                 <div style={{
-                    fontFamily: 'var(--font-mono)', fontSize: 11,
-                    color: 'var(--text-muted)', letterSpacing: '0.1em',
+                    fontFamily: 'var(--font-mono)',
+                    fontSize: isMobile ? '8px' : '11px',
+                    color: 'var(--text-muted)',
+                    textAlign: 'center',
+                    flex: 1,
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    padding: '0 4px',
                 }}>
                     <span style={{ color: accent }}>
-                        {lesson.title.substring(0, 22)}{lesson.title.length > 22 ? '…' : ''}
+                        {isMobile ? lesson.title?.substring(0, 15) : lesson.title?.substring(0, 25)}
+                        {lesson.title?.length > (isMobile ? 15 : 25) ? '…' : ''}
                     </span>
                 </div>
 
@@ -653,15 +705,19 @@ for i in range(5):
                     style={{
                         background: hasNext ? accent : 'transparent',
                         border: `1px solid ${hasNext ? accent : 'rgba(255,255,255,0.05)'}`,
-                        borderRadius: 2, padding: '9px 20px',
+                        borderRadius: '4px',
+                        padding: isMobile ? '6px 12px' : '9px 20px',
                         cursor: hasNext ? 'pointer' : 'not-allowed',
-                        fontFamily: 'var(--font-mono)', fontSize: 11, letterSpacing: '0.1em',
+                        fontFamily: 'var(--font-mono)',
+                        fontSize: isMobile ? '9px' : '11px',
+                        letterSpacing: '0.05em',
                         color: hasNext ? 'var(--bg-primary)' : 'var(--text-muted)',
                         fontWeight: 700,
-                        opacity: hasNext ? 1 : 0.4, transition: 'all 0.2s',
+                        opacity: hasNext ? 1 : 0.4,
+                        transition: 'all 0.2s',
                     }}
                 >
-                    NEXT →
+                    {isMobile ? '' : 'NEXT'} →
                 </button>
             </div>
         </div>

@@ -127,3 +127,224 @@ footer a:hover {
     color: var(--accent-cyan) !important;
     text-shadow: 0 0 3px rgba(0,245,255,0.5);
 }
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    /* Fonturi mai mici */
+    body {
+        font-size: 14px;
+    }
+
+    /* Tabs mai mici */
+    .tab-button {
+        font-size: 10px !important;
+        padding: 12px 0 !important;
+    }
+
+    /* Content padding redus */
+    .lesson-content {
+        padding: 16px 16px 20px !important;
+    }
+
+    /* Headings mai mici */
+    h1 {
+        font-size: 24px !important;
+    }
+    h2 {
+        font-size: 18px !important;
+    }
+    h3 {
+        font-size: 16px !important;
+    }
+
+    /* Code editor height redus */
+    .code-editor-container {
+        max-height: 300px !important;
+    }
+
+    /* Butoane de navigare mai mici */
+    .nav-button {
+        padding: 6px 12px !important;
+        font-size: 10px !important;
+    }
+
+    /* Sidebar overlay */
+    .sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.7);
+        z-index: 999;
+    }
+
+    /* Top bar padding redus */
+    .top-bar {
+        padding: 0 12px !important;
+        min-height: 50px !important;
+    }
+
+    /* Exercise cards padding redus */
+    .exercise-card {
+        padding: 16px !important;
+    }
+}
+
+/* Tablets */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .code-editor-container {
+        max-height: 350px !important;
+    }
+}
+
+/* Landscape phones */
+@media (max-width: 768px) and (orientation: landscape) {
+    .code-editor-container {
+        max-height: 200px !important;
+    }
+    .output-console {
+        min-height: 120px !important;
+        max-height: 150px !important;
+    }
+}
+/* Mobile responsive */
+@media (max-width: 768px) {
+    /* Sidebar - ascuns inițial */
+    .sidebar-mobile {
+        position: fixed;
+        top: 0;
+        left: -320px;
+        width: 300px;
+        max-width: 85%;
+        height: 100vh;
+        background: #0a0f1e;
+        z-index: 1000;
+        transition: left 0.3s ease;
+        overflow-y: auto;
+        box-shadow: 4px 0 30px rgba(0,0,0,0.8);
+    }
+
+    .sidebar-mobile.open {
+        left: 0;
+    }
+
+    /* Fonturi mai mici */
+    body {
+        font-size: 14px;
+    }
+
+    /* Top bar padding redus */
+    .top-bar {
+        padding: 0 12px !important;
+        min-height: 50px !important;
+    }
+
+    /* Tabs mai mici */
+    .tab-button {
+        font-size: 9px !important;
+        padding: 12px 0 !important;
+        letter-spacing: 0.05em !important;
+    }
+
+    /* Content padding redus */
+    .lesson-content {
+        padding: 16px 14px 20px !important;
+    }
+
+    /* Headings mai mici */
+    h1 {
+        font-size: 24px !important;
+    }
+    h2 {
+        font-size: 18px !important;
+    }
+    h3 {
+        font-size: 16px !important;
+    }
+
+    /* Code editor */
+    .code-editor-container {
+        max-height: 250px !important;
+    }
+
+    .code-editor-container textarea {
+        font-size: 11px !important;
+        line-height: 1.5rem !important;
+        padding: 10px !important;
+    }
+
+    /* Butoane de navigare */
+    .nav-button {
+        padding: 6px 12px !important;
+        font-size: 9px !important;
+    }
+
+    /* Exercise cards */
+    .exercise-card {
+        padding: 16px !important;
+    }
+
+    .exercise-card h3 {
+        font-size: 15px !important;
+    }
+
+    /* Output console */
+    .output-console {
+        min-height: 120px !important;
+        max-height: 200px !important;
+        font-size: 11px !important;
+        padding: 10px !important;
+    }
+
+    /* Hamburger button */
+    .hamburger-btn {
+        font-size: 16px !important;
+        padding: 6px 10px !important;
+    }
+
+    /* Progress bar */
+    .progress-text {
+        font-size: 9px !important;
+    }
+}
+
+/* Landscape phones */
+@media (max-width: 768px) and (orientation: landscape) {
+    .code-editor-container {
+        max-height: 150px !important;
+    }
+    .output-console {
+        min-height: 80px !important;
+        max-height: 120px !important;
+    }
+    .sidebar-mobile {
+        width: 250px;
+    }
+}
+
+/* Tablets */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .code-editor-container {
+        max-height: 350px !important;
+    }
+}
+
+/* Animations */
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.slide-in {
+    animation: slideIn 0.3s ease forwards;
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease forwards;
+}
